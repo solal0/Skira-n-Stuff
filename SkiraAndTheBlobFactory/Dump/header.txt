@@ -1,7 +1,7 @@
 # /!\ WARNING /!\
 # Original Website: https://websim.com/@CaptainSkira/blob-factory
 # Original Discord: https://discord.gg/6kmscdE8Qt (infinite use invite)
-# Original Download Link: https://solal0.github.io/web/files/Skira's%20Blob%20Compiler.zip
+# Original Download Link: https://solal0.github.io/Skira-n-Stuff/SkiraAndTheBlobFactory/Tools/Windows/v1.1/Skira's%20Blob%20Compiler.zip
 # \!/ WARNING \!/
 #
 #  _____ _    _                ___            _     _____ _             ______ _       _        ______         _                   
