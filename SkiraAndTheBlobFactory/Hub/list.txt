@@ -1,10 +1,10 @@
 {
   "IconTypes": {
-    "ZIP": "https://solal0.github.io/web/files/Hub/zip_ico.png",
-    "IMG": "https://solal0.github.io/web/files/Hub/img_ico.png",
-    "EXE": "https://solal0.github.io/web/files/Hub/exe_ico.png",
-    "VID": "https://solal0.github.io/web/files/Hub/vid_ico.png",
-    "DEF": "https://solal0.github.io/web/files/Hub/idk_ico.png"
+    "ZIP": "https://raw.githubusercontent.com/solal0/Skira-n-Stuff/refs/heads/main/SkiraAndTheBlobFactory/Hub/zip_ico.png",
+    "IMG": "https://raw.githubusercontent.com/solal0/Skira-n-Stuff/refs/heads/main/SkiraAndTheBlobFactory/Hub/img_ico.png",
+    "EXE": "https://raw.githubusercontent.com/solal0/Skira-n-Stuff/refs/heads/main/SkiraAndTheBlobFactory/Hub/exe_ico.png",
+    "VID": "https://raw.githubusercontent.com/solal0/Skira-n-Stuff/refs/heads/main/SkiraAndTheBlobFactory/Hub/vid_ico.png",
+    "DEF": "https://raw.githubusercontent.com/solal0/Skira-n-Stuff/refs/heads/main/SkiraAndTheBlobFactory/Hub/idk_ico.png"
   },
   "Collections": {
     "games": [
