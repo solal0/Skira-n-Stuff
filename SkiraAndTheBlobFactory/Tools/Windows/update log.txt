@@ -1,1 +1,9 @@
-temp
+[V1]: Handle files called "Golden Ticket.json" containing a name variable and a table of parts. Reads all the parts inside the table and import/add them one by one into a single file called whatever the name variable is.
+
+[V1.1]: Now handles "{full_file_name}.golden_ticket.json" and "{full_file_name}.golden_ticket.txt". Same ticket content as before but cleaner. An update checker has been added.
+
+[V1.2]: Added password handling, when adding a password to your imported file on Skira's Blob Factory the password is saved inside the golden ticket, if found by the tool it will use it to decrypt each part.
+
+[V1.3]: Huge optimization added, tool now downloads as fast as the web compiler but can handle 100Gb+ files. Calculated size added next to calculated speed when choosing Slow or Fast method. The tool will make up to 16 workers depending on your pc efficiency to import parts as fast as possible. All imported parts will be added in a folder called ".temp" inside the Output folder and once all parts are imported they will be combined into the original file. Tool requires ~two times the file size you're downloading to import parts and combine them.
+
+[V1.4]: Coming soon...
