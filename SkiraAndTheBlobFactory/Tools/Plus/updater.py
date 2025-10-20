@@ -6,7 +6,7 @@ import sys
 import tempfile
 import time
 
-latest_tool_url = "https://solal0.github.io/web/files/Skira's Blob Compiler.zip"
+latest_tool_url = "https://raw.githubusercontent.com/solal0/Skira-n-Stuff/refs/heads/main/SkiraAndTheBlobFactory/Tools/Windows/Current/Skira's Blob Compiler.zip"
 tool_folder_name = "Skira's Blob Compiler"
 retry_download = 5
 retry_delay = 5
