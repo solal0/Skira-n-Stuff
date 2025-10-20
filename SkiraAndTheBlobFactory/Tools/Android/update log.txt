@@ -1,0 +1,1 @@
+[V1]: Android compiler is out ! Same thing as the windows V1.1 but for mobile and with more details like calculated file size, remaining device space and some other stuff. Does not have update check but has the password detection and part decryption.
