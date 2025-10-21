@@ -6,4 +6,4 @@
 
 [V1.3]: Huge optimization added, tool now downloads as fast as the web compiler but can handle 100Gb+ files. Calculated size added next to calculated speed when choosing Slow or Fast method. The tool will make up to 16 workers depending on your pc efficiency to import parts as fast as possible. All imported parts will be added in a folder called ".temp" inside the Output folder and once all parts are imported they will be combined into the original file. Tool requires ~two times the file size you're downloading to import parts and combine them.
 
-[V1.4]: Coming soon...
+[V1.4]: No more 200% of file size required on the user pc. All parts are imported/streamed and added in the right order at the end. Updated READ ME who nows redirect to the page who's hosted online. Prints have been updated a bit. With this update everything has been moved to https://solal0.github.io/Skira-n-Stuff/.
