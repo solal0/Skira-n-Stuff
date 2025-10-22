@@ -28575,7 +28575,7 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 (() => {
   // --- Config ---
   const BOTTOM_TXT_URL = "https://solal0.github.io/Skira-n-Stuff/Skira%27s%20Library/Lists/bottom.txt";
-  const CORS_PROXY = url => `https://corsproxy.io/?${encodeURIComponent(url)}`; // reliable proxy
+  const CORS_PROXY = url => `https://corsproxy.io/?${encodeURIComponent(url)}`;
 
   // --- Helpers ---
   function show404() {
@@ -28586,6 +28586,7 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
       .err{text-align:center}
       .err h1{font-size:28px;margin:0 0 8px}
       .err p{opacity:.8;margin:0}
+      img.fit-parent{width:100%;height:100%;object-fit:cover;}
     `;
     document.head.appendChild(s);
     const wrapper = document.createElement('div');
@@ -28598,59 +28599,50 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
   const qs = (sel, ctx=document) => ctx.querySelector(sel);
   const qsa = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
-  // --- DOM ready ---
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', main);
   else main();
 
   async function main() {
     try {
-      // 1) Check URL pattern ?{numbers}
+      // --- URL check ?{id} ---
       const query = window.location.search;
       const m = query.match(/^\?(\d+)$/);
       if (!m) { removeAllContentAnd404(); return; }
       const urlId = m[1];
 
-      // 2) Fetch bottom.txt
+      // --- Fetch bottom.txt ---
       let list;
       try {
-        const res = await fetch(BOTTOM_TXT_URL, {cache: "no-store"});
+        const res = await fetch(BOTTOM_TXT_URL, {cache:"no-store"});
         if (!res.ok) throw new Error('failed to fetch bottom list');
         list = await res.json();
-      } catch (e) {
-        console.error('Failed to load bottom.txt', e);
-        removeAllContentAnd404();
-        return;
-      }
+      } catch(e) { console.error(e); removeAllContentAnd404(); return; }
 
-      // 3) Check ID
-      const match = Array.isArray(list) ? list.find(it => String(it.id) === String(urlId)) : null;
+      const match = Array.isArray(list)?list.find(it=>String(it.id)===String(urlId)):null;
       if (!match) { removeAllContentAnd404(); return; }
       const topUrl = match.topUrl, bottomUrl = match.bottomUrl;
 
-      // 4) Hook up buttons (blue / green)
+      // --- Buttons ---
       const attachButtons = () => {
         const blue = qs('.btn_blue_steamui.btn_medium');
         const green = qs('.btn_green_steamui.btn_medium');
-        if (blue) { blue.onclick = e => { e.preventDefault(); window.open(topUrl,'_blank'); }; blue.style.cursor='pointer'; }
-        if (green) { green.onclick = e => { e.preventDefault(); window.open(bottomUrl,'_blank'); }; green.style.cursor='pointer'; }
+        if (blue) { blue.onclick = e=>{e.preventDefault();window.open(topUrl,'_blank');}; blue.style.cursor='pointer'; }
+        if (green) { green.onclick = e=>{e.preventDefault();window.open(bottomUrl,'_blank');}; green.style.cursor='pointer'; }
       };
       attachButtons();
-      new MutationObserver(() => attachButtons()).observe(document.documentElement,{childList:true,subtree:true});
+      new MutationObserver(()=>attachButtons()).observe(document.documentElement,{childList:true,subtree:true});
 
-      // 5) Fetch Steam public API
-      const steamApiUrl = `https://store.steampowered.com/api/appdetails?appids=${encodeURIComponent(urlId)}&cc=us&l=en`;
+      // --- Steam API ---
       let gameData = null;
       try {
-        const res = await fetch(CORS_PROXY(steamApiUrl), {cache:"no-store"});
+        const res = await fetch(CORS_PROXY(`https://store.steampowered.com/api/appdetails?appids=${urlId}&cc=us&l=en`), {cache:"no-store"});
         if (!res.ok) throw new Error('steam api fetch failed');
         const json = await res.json();
-        if (json && json[urlId] && json[urlId].success && json[urlId].data) gameData = json[urlId].data;
-      } catch(e) { console.warn('Steam fetch failed, continuing without metadata', e); }
+        if (json && json[urlId] && json[urlId].success && json[urlId].data) gameData=json[urlId].data;
+      } catch(e){console.warn('Steam fetch failed', e);}
+      if(!gameData) return;
 
-      if(!gameData) return; // skip if failed
-
-      // --- Utility to pick random preview ---
-      function randomPreview() {
+      const randomPreview = (small=false)=>{
         const shots = Array.isArray(gameData.screenshots)?gameData.screenshots.map(s=>s.path_full).filter(u=>u&&!u.startsWith('blob:')):[];
         const movies = Array.isArray(gameData.movies)?gameData.movies.flatMap(m=>m?.thumbnail?[m.thumbnail]:[]):[];
         const candidates = [];
@@ -28658,10 +28650,12 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
         candidates.push(...shots,...movies);
         if(!candidates.length && gameData.background) candidates.push(gameData.background);
         if(!candidates.length) return '';
-        return candidates[Math.floor(Math.random()*candidates.length)];
-      }
+        let rp = candidates[Math.floor(Math.random()*candidates.length)];
+        if(small) rp = rp.replace(/\.jpg\?.*$/,'')+'.116x65.jpg'; // resize for small thumbnails
+        return rp;
+      };
 
-      // --- Update elements as soon as possible ---
+      // --- Update elements ---
       const updateHeader = () => {
         const headerImg = qs('.game_header_image_full');
         if(headerImg && gameData.header_image) { headerImg.src = gameData.header_image; headerImg.srcset=''; }
@@ -28669,28 +28663,38 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 
       const updateMovieThumbs = () => {
         qsa('.movie_thumb').forEach(img=>{
-          const rp = randomPreview();
-          if(rp){
-            img.src = rp;
-            img.width = 116;
-            img.height = 65;
-          }
+          const rp = randomPreview(true);
+          if(rp){ img.src=rp; img.width=116; img.height=65; }
         });
       };
 
-      const updatePoster = () => {
+      const updatePosterVideo = () => {
         const videoEl = qs('video[data-savepage-poster]');
         const rp = randomPreview();
-        if(videoEl && rp){
-          videoEl.setAttribute('data-savepage-poster', rp);
-          videoEl.setAttribute('poster', rp);
-        }
+        if(videoEl && rp){ videoEl.setAttribute('data-savepage-poster',rp); videoEl.setAttribute('poster',rp); }
       };
 
       const updateHighlightStrip = () => {
-        qsa('#highlight_strip [data-panel]').forEach(panel=>{
-          qsa('img',panel).forEach(img=>{ const rp=randomPreview(); if(rp) img.src=rp; });
-          qsa('[style]',panel).forEach(el=>{ const rp=randomPreview(); if(rp && /background(-image)?:/.test(el.style.cssText)) el.style.backgroundImage=`url("${rp}")`; });
+        qsa('#highlight_strip [data-panel], .highlight_strip_item').forEach(panel=>{
+          qsa('img',panel).forEach(img=>{
+            const rp=randomPreview();
+            if(rp){ img.src=rp; img.classList.add('fit-parent'); }
+          });
+          qsa('[style]',panel).forEach(el=>{
+            const rp=randomPreview();
+            if(rp && /background(-image)?:/.test(el.style.cssText)) el.style.backgroundImage=`url("${rp}")`;
+          });
+        });
+      };
+
+      const updateSpecialClass = () => {
+        qsa('._39Fc5ujNP-wz5RbY-mJb--').forEach(el=>{
+          if(!el.querySelector('img')){
+            const img=document.createElement('img');
+            img.src=randomPreview();
+            img.classList.add('fit-parent');
+            el.appendChild(img);
+          }
         });
       };
 
@@ -28701,16 +28705,15 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
         const descEl = qs('.game_description_snippet'); if(descEl) descEl.textContent=gameData.short_description||'';
       };
 
-      // Run all updates immediately
-      updateHeader(); updateMovieThumbs(); updatePoster(); updateHighlightStrip(); updateTexts();
+      // --- Run updates immediately ---
+      updateHeader(); updateMovieThumbs(); updatePosterVideo(); updateHighlightStrip(); updateSpecialClass(); updateTexts();
 
-      // Also observe DOM for dynamically added elements
-      const observer2 = new MutationObserver(()=>{
-        updateHeader(); updateMovieThumbs(); updatePoster(); updateHighlightStrip(); updateTexts();
-      });
-      observer2.observe(document.documentElement,{childList:true,subtree:true});
+      // --- Observe DOM for late-loaded elements ---
+      new MutationObserver(()=>{
+        updateHeader(); updateMovieThumbs(); updatePosterVideo(); updateHighlightStrip(); updateSpecialClass(); updateTexts();
+      }).observe(document.documentElement,{childList:true,subtree:true});
 
-    } catch(err) { console.error('Unexpected script error', err); removeAllContentAnd404(); }
+    } catch(err){ console.error('Unexpected script error',err); removeAllContentAnd404(); }
   }
 })();
 </script>
