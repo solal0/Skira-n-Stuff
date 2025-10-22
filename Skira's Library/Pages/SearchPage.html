@@ -13483,7 +13483,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!await waitForElements('.search_result_row.ds_collapse_flag')) return;
 
   try {
-    const listUrl = "https://solal0.github.io/web/files/steam_list.txt";
+    const listUrl = "https://solal0.github.io/Skira-n-Stuff/Skira's%20Library/Lists/bottom.txt";
     const listResp = await fetch(listUrl);
     const list = await listResp.json();
 
@@ -13514,7 +13514,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- Optional Steam page deep scraping ---
-    const CORS_PROXY = 'https://corsproxy.io/?';
+    const CORS_PROXIES = [
+      'https://corsproxy.io/?',
+      'https://api.allorigins.win/raw?url=',
+      'https://thingproxy.freeboard.io/fetch/',
+      'https://proxy.cors.sh/'
+    ];
+
+    // Smart proxy fetcher
+    async function fetchThroughProxies(targetUrl) {
+      for (let i = 0; i < CORS_PROXIES.length; i++) {
+        const proxy = CORS_PROXIES[i];
+        try {
+          const resp = await fetch(`${proxy}${encodeURIComponent(targetUrl)}`);
+          if (!resp.ok) throw new Error(`Proxy ${i + 1} failed: ${resp.status}`);
+          return await resp.text(); // or .json() depending on usage
+        } catch (err) {
+          console.warn(`⚠ Proxy ${i + 1} failed (${proxy}):`, err.message);
+          if (i === CORS_PROXIES.length - 1) {
+            console.error('❌ All proxies failed. Using fallback.');
+            throw err; // Let your fallback handler catch this
+          }
+        }
+      }
+    }
+
     const fetchSteamTags = async (appid) => {
       try {
         const resp = await fetch(`${CORS_PROXY}https://store.steampowered.com/app/${appid}/`);
@@ -13528,11 +13552,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await Promise.all(clones.map(async ({ entry, clone }) => {
       const appid = entry.id;
-      const apiUrl = `https://corsproxy.io/?${encodeURIComponent("https://store.steampowered.com/api/appdetails?appids=" + appid)}`;
+      const jsonText = await fetchThroughProxies(`https://store.steampowered.com/api/appdetails?appids=${appid}`);
+      const json = JSON.parse(jsonText);
       let data = null;
       for (let attempt = 1; attempt <= 3; attempt++) {
         try {
-          const json = await fetchWithRetry(apiUrl);
           const appKey = Object.keys(json)[0];
           const dataObj = json[appKey];
           if (dataObj?.success && dataObj.data) {
@@ -13591,25 +13615,78 @@ document.addEventListener('DOMContentLoaded', async () => {
         finalPriceEl.textContent = '0,00 $';
       });
 
-      // --- ORIGINAL PRICE RETRY 10 TIMES ---
-      const origPriceEl = clone.querySelector('.responsive_search_name_combined .search_price_discount_combined.responsive_secondrow .search_discount_and_price.responsive_secondrow .discount_block.search_discount_block .discount_prices .discount_original_price');
+      // --- ORIGINAL PRICE RETRY 10 TIMES + HTML SCRAPE FALLBACK ---
+      const origPriceEl = clone.querySelector(
+        '.responsive_search_name_combined .search_price_discount_combined.responsive_secondrow .search_discount_and_price.responsive_secondrow .discount_block.search_discount_block .discount_prices .discount_original_price'
+      );
+
       let priceSuccess = false;
+      let price = null;
+
+      // Try JSON API price first (10 retries)
       for (let attempt = 1; attempt <= 10; attempt++) {
         try {
-          const price = data?.price_overview?.initial ? data.price_overview.initial / 100 : null;
-          if (price === null || price > 200) throw 'Invalid price';
-          origPriceEl.textContent = price.toFixed(2) + ' $';
-          // console.log(`✅ ${data?.name} original price set to ${origPriceEl.textContent} on attempt ${attempt}`);
-          priceSuccess = true;
-          break;
+          const initial = data?.price_overview?.initial;
+          if (initial && initial > 0 && initial < 20000) {
+            price = initial / 100;
+            origPriceEl.textContent = price.toFixed(2) + ' $';
+            priceSuccess = true;
+            break;
+          } else {
+            // Sometimes price_overview is missing; try refreshing appdetails
+            const freshJson = await fetchThroughProxies(
+              `https://store.steampowered.com/api/appdetails?appids=${appid}`,
+              'json'
+            );
+            const freshData = freshJson[appid]?.data;
+            if (freshData?.price_overview?.initial) {
+              price = freshData.price_overview.initial / 100;
+              origPriceEl.textContent = price.toFixed(2) + ' $';
+              priceSuccess = true;
+              break;
+            }
+            throw new Error('Invalid or missing price');
+          }
         } catch (err) {
-          console.warn(`⚠ Attempt ${attempt} failed to set original price for ${data?.name}: ${err}`);
-          await new Promise(r => setTimeout(r, 200));
+          console.warn(`⚠ Attempt ${attempt} failed to set original price for ${data?.name || appid}: ${err.message}`);
+          await new Promise(r => setTimeout(r, 300));
         }
       }
+
+      // If API method fails, try fallback scraping method
       if (!priceSuccess) {
-        origPriceEl.textContent = "err";
-        console.error(`❌ All 10 attempts failed for original price of ${data?.name}`);
+        try {
+          const html = await fetchThroughProxies(`https://store.steampowered.com/app/${appid}/`, 'text');
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+    
+          // Try several selectors because Steam changes layout
+          const priceEl =
+            doc.querySelector('.game_purchase_price.price') ||
+            doc.querySelector('.discount_original_price') ||
+            doc.querySelector('.price') ||
+            doc.querySelector('[data-price-final]');
+    
+          const text = priceEl?.textContent?.trim() || '';
+          const numeric = parseFloat(text.replace(/[^\d.,]/g, '').replace(',', '.'));
+    
+          if (!isNaN(numeric) && numeric > 0 && numeric < 200) {
+            price = numeric;
+            origPriceEl.textContent = price.toFixed(2) + ' $';
+            priceSuccess = true;
+            console.log(`✅ Fallback HTML price succeeded for ${data?.name || appid}: ${price.toFixed(2)} $`);
+          } else {
+            throw new Error('HTML parse failed');
+          }
+        } catch (err) {
+          console.error(`❌ Fallback HTML scrape failed for ${data?.name || appid}: ${err.message}`);
+        }
+      }
+      
+      // Final fail-safe
+      if (!priceSuccess) {
+        origPriceEl.textContent = 'err';
+        console.error(`❌ Could not retrieve price for ${data?.name || appid} after all retries`);
       }
 
       safe(() => {
@@ -13718,6 +13795,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
+  // Utility: wait for an element
   const waitFor = (selector, timeout = 30000) => new Promise(resolve => {
     const start = Date.now();
     const interval = setInterval(() => {
@@ -13727,77 +13805,104 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 250);
   });
 
+  // Multi-proxy system with fallback
+  const CORS_PROXIES = [
+    'https://corsproxy.io/?',
+    'https://api.allorigins.win/raw?url=',
+    'https://thingproxy.freeboard.io/fetch/',
+    'https://proxy.cors.sh/'
+  ];
+  async function fetchThroughProxies(url, type = 'text', tries = 3) {
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+      const proxy = CORS_PROXIES[i];
+      for (let t = 1; t <= tries; t++) {
+        try {
+          const resp = await fetch(`${proxy}${encodeURIComponent(url)}`);
+          if (!resp.ok) throw new Error(`Status ${resp.status}`);
+          return type === 'json' ? await resp.json() : await resp.text();
+        } catch (err) {
+          console.warn(`⚠ Proxy ${i + 1} attempt ${t} failed for ${url}: ${err.message}`);
+          if (t < tries) await new Promise(r => setTimeout(r, 300));
+        }
+      }
+    }
+    throw new Error(`❌ All proxies failed for ${url}`);
+  }
+
+  // Wait for container
   const container = await waitFor('#TagFilter_Container');
   if (!container) return;
 
-  container.style.maxHeight = '400px';
-  container.style.overflowY = 'auto';
-  container.style.background = 'transparent';
-  container.style.border = 'none';
-  container.style.paddingRight = '5px';
+  // Style adjustments
+  Object.assign(container.style, {
+    maxHeight: '400px',
+    overflowY: 'auto',
+    background: 'transparent',
+    border: 'none',
+    paddingRight: '5px'
+  });
 
   // Wait for localGames
   const waitForGames = async () => {
     const start = Date.now();
-    while (true) {
-      if (window.localGames && window.localGames.length &&
-          window.localGames.every(g => g.clone && g.genres && g.genres.length >= 0)) break;
-      if (Date.now() - start > 30000) { console.error('Timeout waiting for games to initialize genres'); break; }
+    while (Date.now() - start < 30000) {
+      if (window.localGames?.length &&
+          window.localGames.every(g => g.clone && g.genres)) return true;
       await new Promise(r => setTimeout(r, 500));
     }
+    console.error('Timeout waiting for localGames');
+    return false;
   };
-  await waitForGames();
-  console.log('✅ localGames loaded');
+  if (!await waitForGames()) return;
+  console.log('✅ localGames ready');
 
-  // Fetch game IDs
+  // Fetch Steam app IDs
   let allIds = [];
   try {
-    const listResp = await fetch('https://solal0.github.io/web/files/steam_list.txt');
-    const list = await listResp.json();
-    allIds = list.map(entry => entry.id);
-    console.log(`📄 Found ${allIds.length} game IDs`);
-  } catch(err) {
-    console.error('❌ Failed to fetch steam_list.txt', err);
+    const list = await (await fetch('https://solal0.github.io/web/files/steam_list.txt')).json();
+    allIds = list.map(e => e.id);
+    console.log(`📄 Loaded ${allIds.length} app IDs`);
+  } catch (err) {
+    console.error('❌ Failed to fetch steam_list.txt:', err);
     return;
   }
 
-  // Steam scraping function (via CORS proxy)
-  const CORS_PROXY = 'https://corsproxy.io/?';
-  async function fetchSteamTags(appId) {
+  // Steam tag scraping
+  async function fetchSteamTags(appid) {
     try {
-      const resp = await fetch(`${CORS_PROXY}https://store.steampowered.com/app/${appId}/`);
-      const html = await resp.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
+      const html = await fetchThroughProxies(`https://store.steampowered.com/app/${appid}/`, 'text');
+      const doc = new DOMParser().parseFromString(html, 'text/html');
       const tagEls = doc.querySelectorAll('.glance_tags a.app_tag, .details_block a.app_tag');
       return Array.from(tagEls).map(el => el.textContent.trim()).filter(Boolean);
     } catch (err) {
-      console.error(`❌ Failed to fetch Steam tags for ${appId}`, err);
+      console.warn(`❌ Failed to fetch tags for ${appid}: ${err.message}`);
       return [];
     }
   }
 
-  // Gather all tags
+  // Gather tags from both sources
   const allTagsSet = new Set();
   for (let i = 0; i < allIds.length; i++) {
     const id = allIds[i];
     const localGame = window.localGames.find(g => g.id === id);
     const localTags = localGame?.genres || [];
     const steamTags = await fetchSteamTags(id);
-    [...localTags, ...steamTags].forEach(tag => allTagsSet.add(tag));
-    await new Promise(r => setTimeout(r, 1000)); // avoid rate limit
-  }
-  const allTags = Array.from(allTagsSet);
-  console.log(`📊 Total unique tags: ${allTags.join(', ')}`);
+    const combinedTags = Array.from(new Set([...localTags, ...steamTags]));
+    combinedTags.forEach(tag => allTagsSet.add(tag));
 
-  // Remove existing tag rows
+    if (localGame) localGame.tags = combinedTags;
+    await new Promise(r => setTimeout(r, 1000));
+  }
+  const allTags = Array.from(allTagsSet).sort();
+  console.log(`📊 Collected ${allTags.length} unique tags`);
+
+  // Clean up existing rows
   const firstRow = container.querySelector('.tab_filter_control_row');
   if (!firstRow) return;
   const templateRow = firstRow.cloneNode(true);
   container.querySelectorAll('.tab_filter_control_row').forEach(r => r.remove());
-  console.log('🗑️ Removed old tag rows');
 
-  // Create checkbox rows for all tags
+  // Build tag checkboxes
   const clones = [];
   allTags.forEach(tag => {
     const clone = templateRow.cloneNode(true);
@@ -13809,11 +13914,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!labelEl || !countEl || !checkboxDiv || !includeDiv) return;
 
     labelEl.textContent = tag;
-    clones.push({ clone, tag, checkboxDiv, countEl, includeDiv });
-    container.appendChild(clone);
-  });
-
-  clones.forEach(({ clone, tag, checkboxDiv, countEl, includeDiv }) => {
     let checkbox = checkboxDiv.querySelector('input[type="checkbox"]');
     if (!checkbox) {
       checkbox = document.createElement('input');
@@ -13822,33 +13922,41 @@ document.addEventListener('DOMContentLoaded', async () => {
       checkboxDiv.prepend(checkbox);
     }
     checkbox.dataset.genre = tag;
-
-    const updateCountAndFilter = () => {
-      const checkedTags = Array.from(container.querySelectorAll('input[type="checkbox"]:checked'))
-        .map(cb => cb.dataset.genre);
-      window.localGames.forEach(game => {
-        if (!checkedTags.length) {
-          game.clone.style.display = '';
-        } else {
-          const match = game.tags.some(g => checkedTags.includes(g));
-          game.clone.style.display = match ? '' : 'none';
-        }
-      });
-
-      const visibleCount = window.localGames
-        .filter(game => game.clone.style.display !== 'none' && game.tags.includes(tag)).length;
-      countEl.textContent = visibleCount;
-    };
-
-    includeDiv.addEventListener('click', () => {
-      checkbox.checked = !checkbox.checked;
-      updateCountAndFilter();
-    });
-
-    updateCountAndFilter();
+    clones.push({ clone, tag, checkbox, countEl, includeDiv });
+    container.appendChild(clone);
   });
 
-  console.log('✅ All tag checkboxes created and initialized');
+  // Update display when tags checked
+  function updateDisplay() {
+    const checkedTags = clones.filter(c => c.checkbox.checked).map(c => c.tag);
+    window.localGames.forEach(game => {
+      if (!checkedTags.length) {
+        game.clone.style.display = '';
+      } else {
+        const match = game.tags.some(tag => checkedTags.includes(tag));
+        game.clone.style.display = match ? '' : 'none';
+      }
+    });
+
+    // Update tag counts
+    clones.forEach(({ tag, countEl }) => {
+      const visibleCount = window.localGames.filter(
+        g => g.clone.style.display !== 'none' && g.tags.includes(tag)
+      ).length;
+      countEl.textContent = visibleCount;
+    });
+  }
+
+  // Bind events
+  clones.forEach(({ includeDiv, checkbox }) => {
+    includeDiv.addEventListener('click', () => {
+      checkbox.checked = !checkbox.checked;
+      updateDisplay();
+    });
+  });
+
+  updateDisplay();
+  console.log('✅ Tag filtering system initialized');
 });
 </script>
 
@@ -14374,7 +14482,7 @@ button.DialogButton{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;b
 						
 			<div class="block search_collapse_block" data-collapse-name="tags" data-gpnav="rows" data-gpfocus="group">
 				<div data-panel="{&quot;focusable&quot;:true,&quot;clickOnActivate&quot;:true}" role="button" class="block_header labs_block_header">
-					<div>Affiner par tag</div>
+					<div>Refine by tag (broken)</div>
 				</div>
 				<div class="block_content block_content_inner">
 					<div id="TagFilter_Container" style="max-height: 150px; overflow: hidden;">
