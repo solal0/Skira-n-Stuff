@@ -28572,157 +28572,212 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 }
 </style>
 <script>
-(() => {
-  // --- Config ---
-  const BOTTOM_TXT_URL = "https://solal0.github.io/Skira-n-Stuff/Skira%27s%20Library/Lists/bottom.txt";
-  const CORS_PROXY = url => `https://corsproxy.io/?${encodeURIComponent(url)}`;
+	(() => {
+		// --- Config ---
+		const BOTTOM_TXT_URL = "https://solal0.github.io/Skira-n-Stuff/Skira%27s%20Library/Lists/bottom.txt";
+        const PROXIES = [
+            url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+            url => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`,
+            url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+        ];
 
-  // --- Helpers ---
-  function show404() {
-    document.documentElement.innerHTML = '';
-    const s = document.createElement('style');
-    s.textContent = `
-      body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#111;color:#eee}
-      .err{text-align:center}
-      .err h1{font-size:28px;margin:0 0 8px}
-      .err p{opacity:.8;margin:0}
-      img.fit-parent{
-        width: 116px;
-        height: 65px;
-        object-fit:cover;
-      }
-    `;
-    document.head.appendChild(s);
-    const wrapper = document.createElement('div');
-    wrapper.className = 'err';
-    wrapper.innerHTML = `<h1>Error 404: Content Unavailable</h1><p>The page you requested is not available.</p>`;
-    document.body.appendChild(wrapper);
-  }
+		// --- Helpers ---
+		function show404() {
+			document.documentElement.innerHTML = '';
+			const s = document.createElement('style');
+			s.textContent = `
+	  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#111;color:#eee}
+	  .err{text-align:center}
+	  .err h1{font-size:28px;margin:0 0 8px}
+	  .err p{opacity:.8;margin:0}
+	  img.fit-parent{
+		width: 116px;
+		height: 65px;
+		object-fit:cover;
+	  }
+	`;
+			document.head.appendChild(s);
+			const wrapper = document.createElement('div');
+			wrapper.className = 'err';
+			wrapper.innerHTML = `<h1>Error 404: Content Unavailable</h1><p>The page you requested is not available.</p>`;
+			document.body.appendChild(wrapper);
+		}
 
-  function removeAllContentAnd404() { try { show404(); } catch(e) { document.body.innerHTML = 'Error 404: Content Unavailable'; } }
-  const qs = (sel, ctx=document) => ctx.querySelector(sel);
-  const qsa = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+		function removeAllContentAnd404() { try { show404(); } catch (e) { document.body.innerHTML = 'Error 404: Content Unavailable'; } }
+		const qs = (sel, ctx = document) => ctx.querySelector(sel);
+		const qsa = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', main);
-  else main();
+		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', main);
+		else main();
 
-  async function main() {
-    try {
-      // --- URL check ?{id} ---
-      const query = window.location.search;
-      const m = query.match(/^\?(\d+)$/);
-      if (!m) { removeAllContentAnd404(); return; }
-      const urlId = m[1];
+		async function main() {
+			try {
+				// --- URL check ?{id} ---
+				const query = window.location.search;
+				const m = query.match(/^\?(\d+)$/);
+				if (!m) { removeAllContentAnd404(); return; }
+				const urlId = m[1];
 
-      // --- Fetch bottom.txt ---
-      let list;
-      try {
-        const res = await fetch(BOTTOM_TXT_URL, {cache:"no-store"});
-        if (!res.ok) throw new Error('failed to fetch bottom list');
-        list = await res.json();
-      } catch(e) { console.error(e); removeAllContentAnd404(); return; }
+				// --- Fetch bottom.txt ---
+				let list;
+				try {
+					const res = await fetch(BOTTOM_TXT_URL, { cache: "no-store" });
+					if (!res.ok) throw new Error('failed to fetch bottom list');
+					list = await res.json();
+				} catch (e) { console.error(e); removeAllContentAnd404(); return; }
 
-      const match = Array.isArray(list)?list.find(it=>String(it.id)===String(urlId)):null;
-      if (!match) { removeAllContentAnd404(); return; }
-      const topUrl = match.topUrl, bottomUrl = match.bottomUrl;
+				const match = Array.isArray(list) ? list.find(it => String(it.id) === String(urlId)) : null;
+				if (!match) { removeAllContentAnd404(); return; }
+				const topUrl = match.topUrl, bottomUrl = match.bottomUrl;
 
-      // --- Buttons ---
-      const attachButtons = () => {
-        const blue = qs('.btn_blue_steamui.btn_medium');
-        const green = qs('.btn_green_steamui.btn_medium');
-        if (blue) { blue.onclick = e=>{e.preventDefault();window.open(topUrl,'_blank');}; blue.style.cursor='pointer'; }
-        if (green) { green.onclick = e=>{e.preventDefault();window.open(bottomUrl,'_blank');}; green.style.cursor='pointer'; }
-      };
-      attachButtons();
-      new MutationObserver(()=>attachButtons()).observe(document.documentElement,{childList:true,subtree:true});
+				// --- Buttons ---
+				const attachButtons = () => {
+					const blue = qs('.btn_blue_steamui.btn_medium');
+					const green = qs('.btn_green_steamui.btn_medium');
+					if (blue) { blue.onclick = e => { e.preventDefault(); window.open(topUrl, '_blank'); }; blue.style.cursor = 'pointer'; }
+					if (green) { green.onclick = e => { e.preventDefault(); window.open(bottomUrl, '_blank'); }; green.style.cursor = 'pointer'; }
+				};
+				attachButtons();
+				new MutationObserver(() => attachButtons()).observe(document.documentElement, { childList: true, subtree: true });
 
-      // --- Steam API ---
-      let gameData = null;
-      try {
-        const res = await fetch(CORS_PROXY(`https://store.steampowered.com/api/appdetails?appids=${urlId}&cc=us&l=en`), {cache:"no-store"});
-        if (!res.ok) throw new Error('steam api fetch failed');
-        const json = await res.json();
-        if (json && json[urlId] && json[urlId].success && json[urlId].data) gameData=json[urlId].data;
-      } catch(e){console.warn('Steam fetch failed', e);}
-      if(!gameData) return;
+				// --- Steam API ---
+				let gameData = null;
+				try {
+                    let json = null;
+                    for (let proxy of PROXIES) {
+                        try {
+                            const res = await fetch(proxy(`https://store.steampowered.com/api/appdetails?appids=${urlId}&cc=us&l=en`), { cache: "no-store" });
+                            if (!res.ok) throw new Error('Failed proxy');
+                            json = await res.json();
+                            break;
+                        } catch (e) {
+                            console.warn('Proxy failed', e);
+                        }
+                    }
+                    if (json && json[urlId] && json[urlId].success) gameData = json[urlId].data;
+				} catch (e) { console.warn('Steam fetch failed', e); }
+				if (!gameData) return;
 
-      const randomPreview = (small=false)=>{
-        const shots = Array.isArray(gameData.screenshots)?gameData.screenshots.map(s=>s.path_full).filter(u=>u&&!u.startsWith('blob:')):[];
-        const movies = Array.isArray(gameData.movies)?gameData.movies.flatMap(m=>m?.thumbnail?[m.thumbnail]:[]):[];
-        const candidates = [];
-        if(gameData.header_image) candidates.push(gameData.header_image);
-        candidates.push(...shots,...movies);
-        if(!candidates.length && gameData.background) candidates.push(gameData.background);
-        if(!candidates.length) return '';
-        let rp = candidates[Math.floor(Math.random()*candidates.length)];
-        if(small) rp = rp.replace(/\.jpg\?.*$/,'')+'.116x65.jpg'; // use 116x65 version
-        return rp;
-      };
+				const randomPreview = (small = false) => {
+					const shots = Array.isArray(gameData.screenshots) ? gameData.screenshots.map(s => s.path_full).filter(u => u && !u.startsWith('blob:')) : [];
+					const movies = Array.isArray(gameData.movies) ? gameData.movies.flatMap(m => m?.thumbnail ? [m.thumbnail] : []) : [];
+					const candidates = [];
+					if (gameData.header_image) candidates.push(gameData.header_image);
+					candidates.push(...shots, ...movies);
+					if (!candidates.length && gameData.background) candidates.push(gameData.background);
+					if (!candidates.length) return '';
+					let rp = candidates[Math.floor(Math.random() * candidates.length)];
+					if (small) rp = rp.replace(/\.jpg\?.*$/, '') + '.116x65.jpg'; // use 116x65 version
+					return rp;
+				};
 
 
-      // --- Update elements ---
-      const updateHeader = () => {
-        const headerImg = qs('.game_header_image_full');
-        if(headerImg && gameData.header_image) { headerImg.src = gameData.header_image; headerImg.srcset=''; }
-      };
+				// --- Update elements ---
+				const updateHeader = () => {
+					const headerImg = qs('.game_header_image_full');
+					if (headerImg && gameData.header_image) { headerImg.src = gameData.header_image; headerImg.srcset = ''; }
+				};
 
-      const updateMovieThumbs = () => {
-        qsa('.movie_thumb').forEach(img=>{
-          const rp = randomPreview(true);
-          if(rp){ img.src=rp; img.width=116; img.height=65; }
-        });
-      };
+				const updateMovieThumbs = () => {
+					qsa('.movie_thumb').forEach(img => {
+						const rp = randomPreview(true);
+						if (rp) { img.src = rp; img.width = 116; img.height = 65; }
+					});
+				};
 
-      const updatePosterVideo = () => {
-        const videoEl = qs('video[data-savepage-poster]');
-        const rp = randomPreview();
-        if(videoEl && rp){ videoEl.setAttribute('data-savepage-poster',rp); videoEl.setAttribute('poster',rp); }
-      };
+				const updatePosterVideo = () => {
+					const videoEl = qs('video[data-savepage-poster]');
+					const rp = randomPreview();
+					if (videoEl && rp) { videoEl.setAttribute('data-savepage-poster', rp); videoEl.setAttribute('poster', rp); }
+				};
 
-      const updateHighlightStrip = () => {
-        qsa('#highlight_strip [data-panel], .highlight_strip_item').forEach(panel=>{
-          qsa('img', panel).forEach(img=>{
-            const rp = randomPreview();
-            if(rp){
-              img.src = rp;
-              img.width = 116;
-              img.height = 65;
-              img.style.objectFit = 'cover';
-            }
-          });
-        });
-      };
+				const updateHighlightStrip = () => {
+					qsa('#highlight_strip [data-panel], .highlight_strip_item').forEach(panel => {
+						qsa('img', panel).forEach(img => {
+							const rp = randomPreview();
+							if (rp) {
+								img.src = rp;
+								img.width = 116;
+								img.height = 65;
+								img.style.objectFit = 'cover';
+							}
+						});
+					});
+				};
 
-      const updateSpecialClass = () => {
-        qsa('._39Fc5ujNP-wz5RbY-mJb--').forEach(el=>{
-          if(!el.querySelector('img')){
-            const img=document.createElement('img');
-            img.src=randomPreview();
-            img.classList.add('fit-parent');
-            el.appendChild(img);
-          }
-        });
-      };
+				const updateSpecialClass = () => {
+					qsa('._39Fc5ujNP-wz5RbY-mJb--').forEach(el => {
+						if (!el.querySelector('img')) {
+							const img = document.createElement('img');
+							img.src = randomPreview();
+							img.classList.add('fit-parent');
+							el.appendChild(img);
+						}
+					});
+				};
 
-      const updateTexts = () => {
-        const purchaseH1 = qs('.game_area_purchase_game.demo_above_purchase h1'); if(purchaseH1) purchaseH1.textContent=`Download ${gameData.name} Free`;
-        const appName = qs('.apphub_AppName'); if(appName) appName.textContent=gameData.name;
-        const dateEl = qs('.date'); if(dateEl) dateEl.textContent=gameData.release_date?.date || (gameData.release_date?.coming?'Coming Soon':'');
-        const descEl = qs('.game_description_snippet'); if(descEl) descEl.textContent=gameData.short_description||'';
-      };
+				const updateTexts = () => {
+					const purchaseH1 = qs('.game_area_purchase_game.demo_above_purchase h1'); if (purchaseH1) purchaseH1.textContent = `Download ${gameData.name} Free`;
+					const appName = qs('.apphub_AppName'); if (appName) appName.textContent = gameData.name;
+					const dateEl = qs('.date'); if (dateEl) dateEl.textContent = gameData.release_date?.date || (gameData.release_date?.coming ? 'Coming Soon' : '');
+					const descEl = qs('.game_description_snippet'); if (descEl) descEl.textContent = gameData.short_description || '';
+				};
 
-      // --- Run updates immediately ---
-      updateHeader(); updateMovieThumbs(); updatePosterVideo(); updateHighlightStrip(); updateSpecialClass(); updateTexts();
+                const updateAdditionalInfo = () => {
+                    // --- Rating & Number of raters ---
+                    const reviewEl = qs('.game_review_summary.positive');
+                    const responsiveEl = qs('.responsive_hidden');
 
-      // --- Observe DOM for late-loaded elements ---
-      new MutationObserver(()=>{
-        updateHeader(); updateMovieThumbs(); updatePosterVideo(); updateHighlightStrip(); updateSpecialClass(); updateTexts();
-      }).observe(document.documentElement,{childList:true,subtree:true});
+                    if (reviewEl && responsiveEl && gameData?.recommendations) {
+                        const recommended = gameData.recommendations.total || 0;
+                        const notRecommended = (gameData.recommendations.total || 0) - recommended;
+                        const total = recommended + notRecommended;
 
-    } catch(err){ console.error('Unexpected script error',err); removeAllContentAnd404(); }
-  }
-})();
+                        // Avoid division by zero
+                        const percent = total > 0 ? (recommended / total) * 100 : 0;
+
+                        // Determine rating text
+                        let ratingText = 'No reviews';
+                        if (percent <= 5) ratingText = 'Extremely Negative';
+                        else if (percent <= 20) ratingText = 'Very Negative';
+                        else if (percent <= 40) ratingText = 'Negative';
+                        else if (percent <= 59) ratingText = 'Average';
+                        else if (percent <= 79) ratingText = 'Positive';
+                        else if (percent <= 94) ratingText = 'Very Positive';
+                        else ratingText = 'Extremely Positive';
+
+                        // Update elements
+                        reviewEl.textContent = ratingText;
+                        responsiveEl.textContent = `(${recommended})`; // just the recommended number in parentheses
+                    }
+
+                    // 3. Developers
+                    const devEl = qs('#developers_list');
+                    if (devEl) {
+                        const devs = Array.isArray(gameData.developers) ? gameData.developers.join(', ') : 'Unknown';
+                        devEl.textContent = devs;
+                    }
+
+                    // 4. Publisher / Edition
+                    qsa('.dev_row .summary.column').forEach(el => {
+                        const publishers = Array.isArray(gameData.publishers) ? gameData.publishers.join(', ') : 'Unknown';
+                        el.textContent = publishers;
+                    });
+                };
+
+				// --- Run updates immediately ---
+				updateHeader(); updateMovieThumbs(); updatePosterVideo(); updateHighlightStrip(); updateSpecialClass(); updateTexts(); updateAdditionalInfo();
+
+				// --- Observe DOM for late-loaded elements ---
+				new MutationObserver(() => {
+					updateHeader(); updateMovieThumbs(); updatePosterVideo(); updateHighlightStrip(); updateSpecialClass(); updateTexts();
+				}).observe(document.documentElement, { childList: true, subtree: true });
+
+			} catch (err) { console.error('Unexpected script error', err); removeAllContentAnd404(); }
+		}
+	})();
 </script>
+
 <script data-savepage-type="text/javascript" type="text/plain" data-savepage-src="https://store.fastly.steamstatic.com/public/shared/javascript/jquery-1.8.3.min.js?v=NXam5zydzNu8&amp;l=french&amp;_cdn=fastly"></script>
 <script data-savepage-type="text/javascript" type="text/plain"></script><script data-savepage-type="text/javascript" type="text/plain"></script><script data-savepage-type="text/javascript" type="text/plain" data-savepage-src="https://store.fastly.steamstatic.com/public/shared/javascript/tooltip.js?v=LZHsOVauqTrm&amp;l=french&amp;_cdn=fastly"></script>
 
@@ -29167,18 +29222,6 @@ Body.v6.tag_page.contenthub_page{background-color:#202327}._3SWsMT4_EVVsmPbanjlE
 			</div>
 		</div>
 
-
-
-					<div class="responsive_header">
-				<div class="responsive_header_content">
-					<div id="responsive_menu_logo">
-						<img data-savepage-src="https://store.fastly.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png" src="data:image/png;base64," height="100%">
-											</div>
-					<div class="responsive_header_logo">
-						<a href="https://store.steampowered.com/?snr=1_5_9__global-responsive-menu">
-															<img data-savepage-src="https://store.fastly.steamstatic.com/public/shared/images/responsive/header_logo.png" src="data:image/png;base64," height="36" border="0" alt="STEAM">
-													</a>
-					</div>
 					<div class="responsive_header_react_target" data-featuretarget="store-menu-responsive-search"><div class="responsive_header_react_placeholder"></div></div>				</div>
 			</div>
 		
@@ -29347,14 +29390,6 @@ button.DialogButton{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;b
 									</a>
 									
 																		<a class="user_reviews_summary_row" href="file:///C:/Users/Gamer/Downloads/Steam%20Test/test.html#app_reviews_hash" data-tooltip-html="84 % des 844 évaluations des utilisateurs et utilisatrices dans votre langue sont positives" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating" aria-describedby="tooltip-22">
-										<div class="summary column">
-
-											<!-- microdata -->
-											<meta itemprop="reviewCount" content="844">
-											<meta itemprop="ratingValue" content="9">
-											<meta itemprop="bestRating" content="10">
-											<meta itemprop="worstRating" content="1">
-																				</div>
 									</a>
 								</div>
 							
@@ -29389,7 +29424,6 @@ button.DialogButton{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;b
 											<div class="subtitle column all">Toutes les éval.&nbsp;:</div>
 											<div class="summary column">
 																							<span class="responsive_reviewdesc_short">
-													<span class="desc_short">Évaluations en Français&nbsp;</span>
 																										<span class="game_review_summary positive">Très positives</span>
 													(84&nbsp;% sur 844)
 												</span>
