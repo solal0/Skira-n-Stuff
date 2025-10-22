@@ -28586,7 +28586,11 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
       .err{text-align:center}
       .err h1{font-size:28px;margin:0 0 8px}
       .err p{opacity:.8;margin:0}
-      img.fit-parent{width:100%;height:100%;object-fit:cover;}
+      img.fit-parent{
+        width: 116px;
+        height: 65px;
+        object-fit:cover;
+      }
     `;
     document.head.appendChild(s);
     const wrapper = document.createElement('div');
@@ -28651,9 +28655,10 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
         if(!candidates.length && gameData.background) candidates.push(gameData.background);
         if(!candidates.length) return '';
         let rp = candidates[Math.floor(Math.random()*candidates.length)];
-        if(small) rp = rp.replace(/\.jpg\?.*$/,'')+'.116x65.jpg'; // resize for small thumbnails
+        if(small) rp = rp.replace(/\.jpg\?.*$/,'')+'.116x65.jpg'; // use 116x65 version
         return rp;
       };
+
 
       // --- Update elements ---
       const updateHeader = () => {
@@ -28677,12 +28682,13 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
       const updateHighlightStrip = () => {
         qsa('#highlight_strip [data-panel], .highlight_strip_item').forEach(panel=>{
           qsa('img',panel).forEach(img=>{
-            const rp=randomPreview();
-            if(rp){ img.src=rp; img.classList.add('fit-parent'); }
-          });
-          qsa('[style]',panel).forEach(el=>{
-            const rp=randomPreview();
-            if(rp && /background(-image)?:/.test(el.style.cssText)) el.style.backgroundImage=`url("${rp}")`;
+            const rp=randomPreview(true); // pass true for small 116x65
+            if(rp){
+              img.src = rp;
+              img.width = 116;
+              img.height = 65;
+              img.style.objectFit = 'cover';
+            }
           });
         });
       };
