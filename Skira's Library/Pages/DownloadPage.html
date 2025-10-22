@@ -28575,7 +28575,7 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 (() => {
   // --- Config ---
   const BOTTOM_TXT_URL = "https://solal0.github.io/Skira-n-Stuff/Skira%27s%20Library/Lists/bottom.txt";
-  const CORS_PROXY = url => `https://thingproxy.freeboard.io/fetch/${url}`; // fast, reliable proxy
+  const CORS_PROXY = url => `https://corsproxy.io/?${encodeURIComponent(url)}`;
 
   // --- Helpers ---
   function show404() {
