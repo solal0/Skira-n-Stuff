@@ -28610,11 +28610,12 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 
   async function main() {
     try {
-      // 1) Check URL pattern: must end with /download/{numbers}
-      const path = window.location.pathname;
-      const m = path.match(/\/download\/(\d+)\/?$/);
+      // 1) Check URL pattern: must end with ?{numbers}
+      const query = window.location.search; // gets ?{id} including the ?
+      const m = query.match(/^\?(\d+)$/);
       if (!m) { removeAllContentAnd404(); return; }
       const urlId = m[1];
+
 
       // 2) Fetch bottom.txt
       let list;
