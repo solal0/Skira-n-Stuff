@@ -2,54 +2,54 @@
    {
       "id" : "1118200",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e3cb-743e-7336-a802-fbec9e54d11a.txt?silent",
-      "bottomUrl": "https://example.com/download/1"
+      "bottomUrl": "https://api.websim.com/blobs/0199e3cb-743e-7336-a802-fbec9e54d11a.txt"
    },
 
    {
       "id" : "1167630", 
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e533-2aad-748e-8be6-2e9cb0bbfeda.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199e533-2aad-748e-8be6-2e9cb0bbfeda.txt"
    },
 
    {
       "id" : "1017180",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt?silent",
-      "bottomUrl": "https://example.com/download/3"
+      "bottomUrl": "https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt"
    },
 
    {
       "id" : "1091500",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199ec41-fcf9-750c-bf4d-f3f7494e1544.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199ec41-fcf9-750c-bf4d-f3f7494e1544.txt"
    },
 
    {
       "id" : "986130",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f96e-35f5-75f8-a09f-4fc405970626.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199f96e-35f5-75f8-a09f-4fc405970626.txt"
    },
 
    {
       "id" : "2027330",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt"
    },
 
    {
       "id" : "322170",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f984-91d3-720c-b73d-1fbadcea77e1.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199f984-91d3-720c-b73d-1fbadcea77e1.txt"
    },
 
    {
       "id" : "235460",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199fa0f-19bd-779e-9f4b-5810389b227b.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199fa0f-19bd-779e-9f4b-5810389b227b.txt"
    },
 
    {
       "id" : "233860",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199fa1f-98ff-741a-b711-bf2178053088.txt?silent",
-      "bottomUrl": "https://example.com/download/2"
+      "bottomUrl": "https://api.websim.com/blobs/0199fa1f-98ff-741a-b711-bf2178053088.txt"
    }
 ]
