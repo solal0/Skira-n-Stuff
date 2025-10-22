@@ -28575,11 +28575,11 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 (() => {
   // --- Config ---
   const BOTTOM_TXT_URL = "https://solal0.github.io/Skira-n-Stuff/Skira%27s%20Library/Lists/bottom.txt";
-  const CORS_PROXY = url => `https://thingproxy.freeboard.io/fetch/${url}`;
+  const CORS_PROXY = url => `https://thingproxy.freeboard.io/fetch/${url}`; // fast, reliable proxy
 
   // --- Helpers ---
   function show404() {
-    document.documentElement.innerHTML = ''; // remove everything
+    document.documentElement.innerHTML = '';
     const s = document.createElement('style');
     s.textContent = `
       body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#111;color:#eee}
@@ -28594,28 +28594,21 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
     document.body.appendChild(wrapper);
   }
 
-  function removeAllContentAnd404() {
-    try { show404(); } catch (e) { document.body.innerHTML = 'Error 404: Content Unavailable'; }
-  }
+  function removeAllContentAnd404() { try { show404(); } catch(e) { document.body.innerHTML = 'Error 404: Content Unavailable'; } }
+  const qs = (sel, ctx=document) => ctx.querySelector(sel);
+  const qsa = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
-  function qs(selector, ctx = document) { return ctx.querySelector(selector); }
-  function qsa(selector, ctx = document) { return Array.from(ctx.querySelectorAll(selector)); }
-
-  // Wait for DOM
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', main);
-  } else {
-    main();
-  }
+  // --- DOM ready ---
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', main);
+  else main();
 
   async function main() {
     try {
-      // 1) Check URL pattern: must end with ?{numbers}
-      const query = window.location.search; // gets ?{id} including the ?
+      // 1) Check URL pattern ?{numbers}
+      const query = window.location.search;
       const m = query.match(/^\?(\d+)$/);
       if (!m) { removeAllContentAnd404(); return; }
       const urlId = m[1];
-
 
       // 2) Fetch bottom.txt
       let list;
@@ -28629,157 +28622,84 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
         return;
       }
 
-      // 3) Check id
+      // 3) Check ID
       const match = Array.isArray(list) ? list.find(it => String(it.id) === String(urlId)) : null;
       if (!match) { removeAllContentAnd404(); return; }
-
-      // store urls
-      const topUrl = match.topUrl;
-      const bottomUrl = match.bottomUrl;
+      const topUrl = match.topUrl, bottomUrl = match.bottomUrl;
 
       // 4) Hook up buttons (blue / green)
-      // Wait briefly in case those buttons are created later by page scripts
       const attachButtons = () => {
         const blue = qs('.btn_blue_steamui.btn_medium');
         const green = qs('.btn_green_steamui.btn_medium');
-        if (blue) {
-          blue.addEventListener('click', e => { e.preventDefault(); window.open(topUrl, '_blank'); });
-          blue.style.cursor = 'pointer';
-        }
-        if (green) {
-          green.addEventListener('click', e => { e.preventDefault(); window.open(bottomUrl, '_blank'); });
-          green.style.cursor = 'pointer';
-        }
+        if (blue) { blue.onclick = e => { e.preventDefault(); window.open(topUrl,'_blank'); }; blue.style.cursor='pointer'; }
+        if (green) { green.onclick = e => { e.preventDefault(); window.open(bottomUrl,'_blank'); }; green.style.cursor='pointer'; }
       };
       attachButtons();
-      // Also observe DOM in case buttons are added later
-      const observer = new MutationObserver(() => attachButtons());
-      observer.observe(document.documentElement, { childList: true, subtree: true });
+      new MutationObserver(() => attachButtons()).observe(document.documentElement,{childList:true,subtree:true});
 
-      // 5) Fetch Steam public API (no key) via CORS proxy
+      // 5) Fetch Steam public API
       const steamApiUrl = `https://store.steampowered.com/api/appdetails?appids=${encodeURIComponent(urlId)}&cc=us&l=en`;
       let gameData = null;
       try {
-        const res = await fetch(CORS_PROXY(steamApiUrl), { cache: "no-store" });
+        const res = await fetch(CORS_PROXY(steamApiUrl), {cache:"no-store"});
         if (!res.ok) throw new Error('steam api fetch failed');
         const json = await res.json();
-        if (json && json[urlId] && json[urlId].success && json[urlId].data) {
-          gameData = json[urlId].data;
-        } else {
-          console.warn('steam returned no data for id', urlId);
-        }
-      } catch (e) {
-        console.error('Failed to fetch Steam data via proxy', e);
-      }
+        if (json && json[urlId] && json[urlId].success && json[urlId].data) gameData = json[urlId].data;
+      } catch(e) { console.warn('Steam fetch failed, continuing without metadata', e); }
 
-      // If gameData is null, we still continue but skip updates that need it
-      if (!gameData) {
-        // optionally, you could show a notice or keep original page; requirement didn't say to 404 here
-        console.warn('Continuing without Steam metadata.');
-        return;
-      }
+      if(!gameData) return; // skip if failed
 
-      // Utility to pick a random preview
+      // --- Utility to pick random preview ---
       function randomPreview() {
-        const shots = Array.isArray(gameData.screenshots) ? gameData.screenshots.map(s => s.path_full).filter(Boolean) : [];
-        const movies = Array.isArray(gameData.movies) ? gameData.movies.flatMap(m => (m?.thumbnail ? [m.thumbnail] : [])) : [];
+        const shots = Array.isArray(gameData.screenshots)?gameData.screenshots.map(s=>s.path_full).filter(u=>u&&!u.startsWith('blob:')):[];
+        const movies = Array.isArray(gameData.movies)?gameData.movies.flatMap(m=>m?.thumbnail?[m.thumbnail]:[]):[];
         const candidates = [];
-        if (gameData.header_image) candidates.push(gameData.header_image);
-        candidates.push(...shots, ...movies);
-        if (!candidates.length && gameData.background) candidates.push(gameData.background);
-        if (!candidates.length) return '';
-        return candidates[Math.floor(Math.random() * candidates.length)];
+        if(gameData.header_image) candidates.push(gameData.header_image);
+        candidates.push(...shots,...movies);
+        if(!candidates.length && gameData.background) candidates.push(gameData.background);
+        if(!candidates.length) return '';
+        return candidates[Math.floor(Math.random()*candidates.length)];
       }
 
-      // 6) Update elements on the page (safe: check existence)
-      // header image
-      try {
+      // --- Update elements as soon as possible ---
+      const updateHeader = () => {
         const headerImg = qs('.game_header_image_full');
-        if (headerImg && gameData.header_image) {
-          headerImg.src = gameData.header_image;
-          headerImg.srcset = ''; // avoid conflicts with srcset
-        }
-      } catch (e) { console.warn(e); }
+        if(headerImg && gameData.header_image) { headerImg.src = gameData.header_image; headerImg.srcset=''; }
+      };
 
-      // movie_thumb elements
-      try {
-        const randomImg = randomPreview();
-        qsa('.movie_thumb').forEach(img => {
-          if (randomImg) {
-            img.src = randomImg;
-            img.setAttribute('src', randomImg);
-          }
-        });
-      } catch (e) { console.warn(e); }
+      const updateMovieThumbs = () => {
+        qsa('.movie_thumb').forEach(img=>{ const rp=randomPreview(); if(rp) img.src=rp; });
+      };
 
-      // data-savepage-poster on the element with that long class
-      try {
+      const updatePoster = () => {
         const posterEl = qs('.ByTa3bBdyJMzBnwuLJ64v.responsive_menu_ignore_touch');
-        const rp = randomPreview();
-        if (posterEl && rp) posterEl.setAttribute('data-savepage-poster', rp);
-      } catch (e) { console.warn(e); }
+        const rp=randomPreview(); if(posterEl && rp) posterEl.dataset.savepagePoster=rp;
+      };
 
-      // #highlight_strip -> update nested data-panel images
-      try {
-        const panels = qsa('#highlight_strip [data-panel]');
-        panels.forEach(panel => {
-          // find images inside and update their src to a random preview
-          const imgs = qsa('img', panel);
-          imgs.forEach(img => {
-            const rp = randomPreview();
-            if (rp) {
-              img.src = rp;
-              img.setAttribute('src', rp);
-            }
-          });
-          // also background-image inline styles
-          const elemsWithBg = qsa('[style]', panel);
-          elemsWithBg.forEach(el => {
-            const rp = randomPreview();
-            if (rp && /background(-image)?:/.test(el.getAttribute('style') || '')) {
-              el.style.backgroundImage = `url("${rp}")`;
-            }
-          });
+      const updateHighlightStrip = () => {
+        qsa('#highlight_strip [data-panel]').forEach(panel=>{
+          qsa('img',panel).forEach(img=>{ const rp=randomPreview(); if(rp) img.src=rp; });
+          qsa('[style]',panel).forEach(el=>{ const rp=randomPreview(); if(rp && /background(-image)?:/.test(el.style.cssText)) el.style.backgroundImage=`url("${rp}")`; });
         });
-      } catch (e) { console.warn(e); }
+      };
 
-      // Replace purchase area H1 text
-      try {
-        const purchaseH1 = qs('.game_area_purchase_game.demo_above_purchase h1');
-        if (purchaseH1 && gameData.name) {
-          purchaseH1.textContent = `Download ${gameData.name} Free`;
-        }
-      } catch (e) { console.warn(e); }
+      const updateTexts = () => {
+        const purchaseH1 = qs('.game_area_purchase_game.demo_above_purchase h1'); if(purchaseH1) purchaseH1.textContent=`Download ${gameData.name} Free`;
+        const appName = qs('.apphub_AppName'); if(appName) appName.textContent=gameData.name;
+        const dateEl = qs('.date'); if(dateEl) dateEl.textContent=gameData.release_date?.date || (gameData.release_date?.coming?'Coming Soon':'');
+        const descEl = qs('.game_description_snippet'); if(descEl) descEl.textContent=gameData.short_description||'';
+      };
 
-      // Change .apphub_AppName
-      try {
-        const appName = qs('.apphub_AppName');
-        if (appName && gameData.name) appName.textContent = gameData.name;
-      } catch (e) { console.warn(e); }
+      // Run all updates immediately
+      updateHeader(); updateMovieThumbs(); updatePoster(); updateHighlightStrip(); updateTexts();
 
-      // Change .date
-      try {
-        const dateEl = qs('.date');
-        if (dateEl) {
-          const release = gameData.release_date && gameData.release_date.date ? gameData.release_date.date : (gameData.release_date && gameData.release_date.coming ? 'Coming Soon' : '');
-          if (release) dateEl.textContent = release;
-          else dateEl.textContent = '';
-        }
-      } catch (e) { console.warn(e); }
+      // Also observe DOM for dynamically added elements
+      const observer2 = new MutationObserver(()=>{
+        updateHeader(); updateMovieThumbs(); updatePoster(); updateHighlightStrip(); updateTexts();
+      });
+      observer2.observe(document.documentElement,{childList:true,subtree:true});
 
-      // Change .game_description_snippet
-      try {
-        const descEl = qs('.game_description_snippet');
-        if (descEl) descEl.textContent = gameData.short_description || '';
-      } catch (e) { console.warn(e); }
-
-      // Done. You can disconnect observer if you like (we used it for buttons)
-      // observer.disconnect();
-
-    } catch (err) {
-      console.error('Unexpected error in script', err);
-      removeAllContentAnd404();
-    }
+    } catch(err) { console.error('Unexpected script error', err); removeAllContentAnd404(); }
   }
 })();
 </script>
