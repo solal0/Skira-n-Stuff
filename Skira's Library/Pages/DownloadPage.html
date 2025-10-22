@@ -28681,8 +28681,8 @@ html.responsive body.OverlayWindowPinnedView.responsive_page {
 
       const updateHighlightStrip = () => {
         qsa('#highlight_strip [data-panel], .highlight_strip_item').forEach(panel=>{
-          qsa('img',panel).forEach(img=>{
-            const rp=randomPreview(true); // pass true for small 116x65
+          qsa('img', panel).forEach(img=>{
+            const rp = randomPreview();
             if(rp){
               img.src = rp;
               img.width = 116;
@@ -29693,12 +29693,12 @@ button.DialogButton{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;b
 				
 			<div class="game_purchase_action_bg">
 										<div id="GameBtn1" class="web_download">
-						<a class="btn_blue_steamui btn_medium" href="javascript:ShowGotSteamModal( &#39;steam://install/1847520&#39;, &quot;HITMAN Free Starter Pack&quot;, &quot;T\u00e9l\u00e9charger&quot; )">
+						<a class="btn_blue_steamui btn_medium">
 							<span>Télécharger</span>
 						</a>
 					</div>
 									<div id="GameBtn2" class="download">
-						<a class="btn_green_steamui btn_medium" href="javascript:ShowGotSteamModal( &#39;steam://install/1847520&#39;, &quot;HITMAN Free Starter Pack&quot;, &quot;T\u00e9l\u00e9charger&quot; )">
+						<a class="btn_green_steamui btn_medium">
 							<span>Télécharger</span>
 						</a>
 					</div></div></div></div>
