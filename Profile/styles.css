@@ -1,0 +1,235 @@
+:root {
+  --bg: #0c0c0f;
+  --card-bg: rgba(20, 20, 25, 0.9);
+  --text: #f5f5f7;
+  --muted: #9a9a9a;
+  --accent: #6c63ff; /* glowing violet-blue */
+  --radius: 20px;
+  --shadow: 0 12px 30px rgba(0,0,0,0.6);
+  --max-width: 1100px;
+  font-family: 'Noto Sans', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Container */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+}
+.hero .avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.5);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,99,255,0.25), transparent 70%);
+  animation: pulse 6s infinite alternate;
+}
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.3; }
+}
+.hero h1 {
+  font-size: 46px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.hero .tagline {
+  font-size: 18px;
+  color: var(--muted);
+}
+
+/* About */
+.about {
+  max-width: 750px;
+  margin: 0 auto 90px auto;
+  text-align: center;
+}
+.about h2 {
+  font-size: 28px;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.about p {
+  font-size: 17px;
+  color: var(--muted);
+}
+
+/* Section dividers */
+section h2::after {
+  content: "";
+  display: block;
+  margin: 14px auto 0 auto;
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* Projects */
+.projects h2 {
+  font-size: 28px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 70%);
+  transform: rotate(25deg);
+}
+
+/* Organic bubble hover effect */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(108,99,255,0.45), transparent 60%),
+    radial-gradient(circle at 70% 60%, rgba(164,108,255,0.35), transparent 70%),
+    radial-gradient(circle at 50% 80%, rgba(108,99,255,0.25), transparent 65%);
+  background-size: 200% 200%;
+  opacity: 0;
+  filter: blur(18px);
+  z-index: 0;
+  transition: opacity 0.6s ease;
+  animation: bubbles 16s ease-in-out infinite;
+  border-radius: inherit;
+}
+.card:hover::after {
+  opacity: 1;
+}
+
+/* Floating bubbles inside card */
+.card .bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(108,99,255,0.5), rgba(108,99,255,0.1) 70%);
+  animation: floatBubble 12s ease-in-out infinite;
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(10px);
+  transition: opacity 0.6s ease;
+}
+.card:hover .bubble { opacity: 1; }
+.card .bubble:nth-child(1) { width: 160px; height: 160px; top: -40px; left: -40px; animation-delay: 0s; }
+.card .bubble:nth-child(2) { width: 120px; height: 120px; bottom: -30px; right: -20px; animation-delay: 4s; }
+.card .bubble:nth-child(3) { width: 200px; height: 200px; top: 50%; left: 60%; animation-delay: 8s; }
+
+@keyframes floatBubble {
+  0%   { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.6; }
+  25%  { transform: translateY(-20px) scale(1.05) rotate(5deg); opacity: 0.8; }
+  50%  { transform: translateY(10px) scale(0.95) rotate(-5deg); opacity: 0.5; }
+  75%  { transform: translateY(-15px) scale(1.1) rotate(3deg); opacity: 0.7; }
+  100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.6; }
+}
+
+/* Ensure content is above bubbles */
+.card > * { position: relative; z-index: 2; }
+
+/* Card hover effect */
+.card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(108, 99, 255, 0.3);
+}
+
+.card h3 { font-size: 20px; margin-bottom: 10px; }
+.card h3 a { color: var(--text); text-decoration: none; transition: color 0.2s ease; }
+.card h3 a:hover { color: var(--accent); }
+
+.card p { font-size: 15px; margin-bottom: 8px; color: var(--muted); }
+.card .note { font-size: 13px; color: var(--accent); margin-top: 4px; }
+.card .link a { font-size: 14px; color: var(--accent); text-decoration: none; }
+
+/* Footer */
+.footer {
+  margin-top: 120px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 30px;
+}
+
+/* Responsive */
+@media(max-width: 700px) {
+  .hero h1 { font-size: 34px; }
+  .hero .tagline { font-size: 16px; }
+  .about h2, .projects h2 { font-size: 24px; }
+}
+
+.findme { max-width: 800px; margin: 30px auto 60px auto; text-align: center; }
+.findme h2 { font-size: 24px; margin-bottom: 18px; color: var(--text); }
+.find-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.find-grid a {
+  width: 56px;
+  height: 56px;
+  display: inline-block;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: rgba(255,255,255,0.02);
+}
+.find-grid a:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(0,0,0,0.5); }
+.find-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
