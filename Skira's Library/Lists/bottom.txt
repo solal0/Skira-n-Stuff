@@ -17,7 +17,7 @@
       "id" : "1017180",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt?silent",
       "bottomUrl": "https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt",
-      "comment": "1017180",
+      "comment": "The Long Drive",
    },
 
    {
@@ -37,7 +37,7 @@
    {
       "id" : "2027330",
       "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt?silent",
-      "bottomUrl": "https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt"
+      "bottomUrl": "https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt",
       "comment": "GoreBox",
    },
 
