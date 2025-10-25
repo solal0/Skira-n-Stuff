@@ -1,58 +1,3 @@
-const projects = [
-  {
-    title: "Blob Factory",
-    desc: "Creates public blob links, splits large files into parts and provides a Blob Compiler tool to let anyone who has a Golden Ticket to download the original file.",
-    note: "Most efficient current creation.",
-    url: "https://blob-factory--captainskira.on.websim.com/",
-  },
-  {
-    title: "FileToHTML",
-    desc: "Turns any file into a self-downloading HTML through the website or using a python tool available for free, usefull to upload files online and download them with a link.",
-    url: "https://file-self-downloading-html--captainskira.on.websim.com/",
-  },
-  {
-    title: "RawShare",
-    desc: "My first attempt at letting users upload and store text/files for free. In the end it's just a text-sharing tool that stores text in the URL (poor for >1MB).",
-    url: "https://rawshare--captainskira.on.websim.com/",
-  },
-  {
-    title: "Expert's Vault",
-    desc: "Lists 223+ games with 8 different repack providers, search for any game you want, even if not listed you might find it, supports report messages going directly to @CaptainSkira.",
-    url: "https://expert-vault--captainskira.on.websim.com/",
-  },
-  {
-    title: "Websim's Game Tavern",
-    desc: "Clean looking website, listing 48 different games, all for free and provided by a trusted source, Repack Games.",
-    url: "https://websimsgametavern--captainskira.on.websim.com/",
-  },
-  {
-    title: "Sky Engine",
-    desc: "Command-prompt UI for importing games, changing themes, mini-games and cheats.",
-    url: "https://sky-engine--captainskira.on.websim.com/",
-  },
-  {
-    title: "Delta Force Bullets Crafts",
-    desc: "A list of every craftable bullet in delta force. Ressources price can be updated to find the most profitable deal.",
-    url: "https://delta-force--captainskira.on.websim.com/",
-  },
-];
-
-function renderProjects() {
-  const grid = document.getElementById("projectGrid");
-  grid.innerHTML = "";
-  projects.forEach(p => {
-    const card = document.createElement("article");
-    card.className = "card";
-    card.innerHTML = `
-      <h3><a href="${p.url}" target="_blank" rel="noopener noreferrer">${p.title}</a></h3>
-      <p>${p.desc}</p>
-      ${p.note ? `<p class="note">${p.note}</p>` : ""}
-      <p class="link"><a href="${p.url}" target="_blank" rel="noopener noreferrer">Open project →</a></p>
-    `;
-    grid.appendChild(card);
-  });
-}
-
 const findImageUrls = [
   "https://upload.wikimedia.org/wikipedia/commons/7/79/YouTube_social_red_square_%282017%29.svg",
   "https://img.freepik.com/vecteurs-libre/nouvelle-conception-icone-x-du-logo-twitter-2023_1017-45418.jpg",
@@ -94,7 +39,6 @@ function renderFindMe() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderProjects();
   renderFindMe();
 });
 
