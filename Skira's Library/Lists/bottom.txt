@@ -71,8 +71,8 @@
 
    {
       "id" : "115300",
-      "topUrl": "https://solal0.github.io/Skira-n-Stuff/Skira's%20Library/Pages/error404.html",
-      "bottomUrl": "https://solal0.github.io/Skira-n-Stuff/Skira's%20Library/Pages/error404.html",
+      "topUrl": "https://tinyurl.com/error404-html",
+      "bottomUrl": "https://tinyurl.com/error404-html",
       "comment": "COD: Modern Warfare 3"
    }
 ]
