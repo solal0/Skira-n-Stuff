@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blob Factory Versions & Updates</title>
+  <style>
+    body {
+      font-family: "Georgia", "Times New Roman", serif;
+      background-color: #fdfdfd;
+      color: #2f2f2f;
+      margin: 60px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 1em;
+      color: #2c3e50;
+      letter-spacing: 0.5px;
+    }
+
+    .version-list {
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      background-color: #f4f6f7;
+      padding: 1em;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .version-item {
+      cursor: pointer;
+      padding: 10px 15px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .version-item:hover {
+      background-color: #e1e5e8;
+    }
+
+    .version-arrow {
+      transition: transform 0.2s ease;
+      font-size: 1.2em;
+    }
+
+    .version-arrow.open {
+      transform: rotate(90deg);
+    }
+
+    .version-details {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 15px;
+      background-color: #fafafa;
+      border-left: 3px solid #2980b9;
+      margin-bottom: 10px;
+      border-radius: 0 6px 6px 0;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .version-details.open {
+      padding: 10px 15px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Property of Skira (@SKBLX on YouTube) -->
+
+<h1>Blob Factory Versions & Updates</h1>
+
+<div class="version-list" id="versionList">
+
+  <div class="version-item" data-target="v1">
+    v1 - This is a quick description.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v1">
+    This is a detailed and bigger description for v1.
+  </div>
+
+  <div class="version-item" data-target="v2">
+    v2 - This is another quick description.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v2">
+    This is a detailed and bigger description for v2.
+  </div>
+
+  <div class="version-item" data-target="v3">
+    v3 - Yet another description.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v3">
+    This is a detailed and bigger description for v3.
+  </div>
+
+</div>
+
+<script>
+  const items = document.querySelectorAll('.version-item');
+  let openId = null;
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const targetId = item.dataset.target;
+      const details = document.getElementById(targetId);
+      const arrow = item.querySelector('.version-arrow');
+
+      if (openId && openId !== targetId) {
+        const prevDetails = document.getElementById(openId);
+        const prevArrow = document.querySelector(`[data-target="${openId}"] .version-arrow`);
+        prevDetails.style.maxHeight = null;
+        prevDetails.classList.remove('open');
+        prevArrow.classList.remove('open');
+      }
+
+      if (details.style.maxHeight) {
+        details.style.maxHeight = null;
+        details.classList.remove('open');
+        arrow.classList.remove('open');
+        openId = null;
+      } else {
+        details.style.maxHeight = details.scrollHeight + "px";
+        details.classList.add('open');
+        arrow.classList.add('open');
+        openId = targetId;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
