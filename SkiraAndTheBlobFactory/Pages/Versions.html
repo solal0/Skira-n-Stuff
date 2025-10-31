@@ -90,19 +90,30 @@
   </div>
 
   <div class="version-item" data-target="v2">
-    v2 - This is another quick description.
+    v65 - This is another quick description.
     <span class="version-arrow">&gt;</span>
   </div>
   <div class="version-details" id="v2">
-    This is a detailed and bigger description for v2.
+    Writing...
   </div>
 
   <div class="version-item" data-target="v3">
-    v3 - Yet another description.
+    v66 - Number of workers changed to 24.
     <span class="version-arrow">&gt;</span>
   </div>
   <div class="version-details" id="v3">
-    This is a detailed and bigger description for v3.
+    After some testing I found that the most optimized number of workers was 24.<br>
+    Enabling Accelerated Uploads will now generate 24 workers instead of 10.<br>
+    <br>
+    Stats (calculated w/ a connection of 900/800Mbps) :<br>
+    Upload VS Download<br>
+      150Mb (15 parts) -> Upload: 16s / Download: 5s<br>
+      958Mb (96 parts) -> Upload: 1m 07s / Download: 17s<br>
+    Upload Optimization<br>
+      [10 workers] 150Mb -> 45s<br>
+      [10 workers] 100Gb -> ~2h-3h (calculated)
+      [24 workers] 150Mb -> 16s (should be faster because 150Mb only uses 15 workers out of the 24 given.)<br>
+      [24 workers] 100Gb -> 1h43m (calculated)
   </div>
 
 </div>
