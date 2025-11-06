@@ -82,11 +82,43 @@
 <div class="version-list" id="versionList">
 
   <div class="version-item" data-target="v1">
-    v1 - This is a quick description.
+    v1 - The beginning.
     <span class="version-arrow">&gt;</span>
   </div>
   <div class="version-details" id="v1">
-    This is a detailed and bigger description for v1.
+    Nothing much to say, website just started, you can import a file and that's it.
+  </div>
+
+  <div class="version-item" data-target="v1">
+    v3 - First upload.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v1">
+    Users are now able to turn a 10Mb or smaller file into a blob url (e. g. blob:https://{random_string}.c.websim.com/your_file.txt). Those blob url only work locally.
+  </div>
+
+  <div class="version-item" data-target="v1">
+    v5 - Enhancement.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v1">
+    Local blob url are shown below the preview and there's a small button next to it to copy the genereated link.
+  </div>
+
+  <div class="version-item" data-target="v1">
+    v8 - The beginning.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v1">
+    Generated links are no longer local only, imported files are actually uploaded. (blob:https://{random_string}.c.websim.com/your_file.txt -> https://api.websim.com/blobs/your_file.txt).
+  </div>
+
+  <div class="version-item" data-target="v1">
+    v9 - Settings correctly implemented and updated.
+    <span class="version-arrow">&gt;</span>
+  </div>
+  <div class="version-details" id="v1">
+    Settings popup now shows up when the gear button is clicked. New setting called "Big Files Handling" added, it can be checked to allow users to import a file of any size and when clicking Generating Link it cuts the file in multiple pieces of base64 and upload each part under a different blob, you can then copy all urls to clipboard.
   </div>
 
   <div class="version-item" data-target="v2">
@@ -94,8 +126,7 @@
     <span class="version-arrow">&gt;</span>
   </div>
   <div class="version-details" id="v2">
-    When Accelerated Uploads is checked, ETA (Estimated Time of Arrival) will be devided by 8</br>
-    since the website uses 8 workers so the file upload is two times faster.
+    When Accelerated Uploads is checked, ETA (Estimated Time of Arrival) will be devided by 8 since the website uses 8 workers so the file upload is two times faster.
   </div>
 
   <div class="version-item" data-target="v3">
