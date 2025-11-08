@@ -1,376 +1,214 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WebSim — Terms of Use</title>
-  <meta name="description" content="Terms of Use for the WebSim Golden Ticket / file reconstruction tool (hosted by CaptainSkira on WebSim.com)." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skira’s Blob Factory - Terms of Use</title>
   <style>
-    /* Black & white theme only */
-    :root {
-      --bg: #000000;
-      --fg: #ffffff;
-      --muted: #cfcfcf;
-      --border: #222222;
-      --accent: #ffffff; /* kept for accessibility of borders/text */
-      --max-width: 980px;
-      --pad: 24px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: Inter, system-ui, sans-serif;
+      overflow: hidden;
     }
 
-    html,body{
-      height:100%;
-      margin:0;
-      background:var(--bg);
-      color:var(--fg);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    header {
+      padding: 20px 30px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .container{
-      max-width: var(--max-width);
-      margin: 36px auto;
-      padding: var(--pad);
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      color: #fff;
     }
 
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom: 12px;
+    header .meta {
+      font-size: 13px;
+      color: #bbb;
     }
 
-    header h1{
-      margin:0;
-      font-size:20px;
-      letter-spacing:0.2px;
+    main {
+      height: calc(100% - 90px);
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 30px;
+    }
+    main::-webkit-scrollbar {
+      display: none;
     }
 
-    .meta{
-      text-align:right;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    hr{
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 18px 0;
-    }
-
-    h2{
-      font-size:16px;
-      margin: 18px 0 8px 0;
+    h2 {
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: #fff;
     }
 
     p, li {
-      color: var(--muted);
-      line-height:1.5;
-      font-size:14px;
-      margin: 8px 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #ccc;
     }
 
-    ul { margin-left: 20px; }
+    ul {
+      margin-left: 20px;
+    }
 
     .notice {
-      background: rgba(255,255,255,0.02);
-      border:1px solid var(--border);
-      padding:12px;
-      border-radius:8px;
-      color:var(--fg);
-      margin: 12px 0;
-      font-size:13px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #222;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 14px;
     }
 
     .legal-list {
-      background: rgba(255,255,255,0.01);
-      padding:12px;
-      border-radius:8px;
-      border: 1px dashed var(--border);
-      margin: 12px 0 22px 0;
-    }
-
-    .cta {
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-top:14px;
-      flex-wrap:wrap;
-    }
-
-    label.checkbox {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      cursor:pointer;
-      font-size:14px;
-      color:var(--muted);
-      user-select:none;
-    }
-
-    input[type="checkbox"]{
-      width:18px;
-      height:18px;
-      accent-color: #ffffff;
-      background:transparent;
-      border:1px solid var(--border);
-      border-radius:4px;
-    }
-
-    button.continue {
-      background: transparent;
-      color: var(--fg);
-      border: 1px solid var(--fg);
+      border: 1px dashed #222;
       padding: 10px 14px;
-      border-radius: 8px;
-      font-weight:600;
-      cursor: pointer;
-      transition: transform .08s ease, background .08s ease;
-    }
-
-    button.continue:disabled {
-      opacity:0.35;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    button.continue:not(:disabled):active {
-      transform: translateY(1px);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.01);
+      margin: 10px 0 18px 0;
     }
 
     footer {
-      margin-top:22px;
-      font-size:13px;
-      color:var(--muted);
-      border-top:1px solid var(--border);
-      padding-top:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:center;
+      padding: 14px 30px;
+      border-top: 1px solid #222;
+      font-size: 13px;
+      color: #bbb;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    a { color:var(--fg); text-decoration: underline; }
-    small { color:var(--muted); }
-
-    /* small responsive tweaks */
-    @media (max-width:640px){
-      .container { margin:18px; padding:16px; }
-      header { flex-direction:column; align-items:flex-start; gap:8px; }
-      .meta { text-align:left; }
+    a {
+      color: #fff;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <main class="container" role="main" aria-labelledby="title">
-    <header>
-      <h1 id="title">WebSim — Terms of Use</h1>
-      <div class="meta">
-        Last modified: <strong>August 02, 2025</strong><br />
-        Hosted: <strong>WebSim.com</strong><br />
-        Owner / Operator: <strong>@CaptainSkira (Skira)</strong>
-      </div>
-    </header>
+  <header>
+    <h1>Skira’s Blob Factory - Terms of Use</h1>
+    <div class="meta">
+      Last modified: November 8, 2025<br>
+      Hosted on: WebSim.com (Host, not owner)<br>
+      Owner / Operator: @CaptainSkira (Skira)
+    </div>
+  </header>
 
-    <section>
-      <div class="notice">
-        By using this website and its services you agree to these Terms of Use. If you do not agree, do not use the site or its tools. These Terms apply to the "Golden Ticket" export/import feature, the file upload service, and any tools (including local compilers/reconstruction tools) provided by WebSim or its owner/operator.
-      </div>
+  <main>
+    <div class="notice">
+      By using this website and its services you agree to these Terms of Use. If you do not agree, do not use the site or its tools. These Terms apply to the website's content, features and provided tools such as Blob Compilers and others provided by the owner (@CaptainSkira).
+    </div>
 
-      <h2>1. Overview</h2>
-      <p>
-        This service allows users to upload files and share them with others. Users may export a small metadata file (the "Golden Ticket") that contains information necessary to reconstruct the original uploaded file locally using tools provided by WebSim. When enabled, the site may handle very large files by splitting uploads into parts to facilitate transfer and later reconstruction.
-      </p>
+    <h2>1. Overview</h2>
+    <p>
+      This service allows users to upload files and share them with others. Users may export a small metadata file (the "Golden Ticket") that contains information necessary to reconstruct the original uploaded file locally using tools provided by this site. When enabled, the site may handle very large files by splitting uploads into parts to facilitate transfer and later reconstruction.
+    </p>
 
-      <h2>2. Eligibility &amp; Accepting Responsibility</h2>
-      <p>
-        By uploading, exporting, sharing, or otherwise distributing content via this service you acknowledge and agree that anyone with a Golden Ticket or a direct access link can reconstruct or access the corresponding file. You represent and warrant that you have all necessary rights and authorizations to upload, share, and permit distribution of such content. You accept full responsibility — civil, criminal, administrative, or otherwise — for any content you upload, export, share, or reconstruct using this service.
-      </p>
+    <h2>2. Eligibility & Accepting Responsibility</h2>
+    <p>
+      By uploading, exporting, sharing, or otherwise distributing content via this service you acknowledge and agree that anyone with a Golden Ticket or a direct access link can reconstruct or access the corresponding file. You represent and warrant that you have all necessary rights and authorizations to upload, share, and permit distribution of such content. You accept full responsibility, civil, criminal, administrative, or otherwise, for any content you upload, export, share, or reconstruct using this service.
+    </p>
 
-      <h2>3. Prohibited Content &amp; Uses</h2>
-      <p>Do not upload, share, attempt to reconstruct, or otherwise distribute any content or materials that:</p>
-      <div class="legal-list">
-        <ul>
-          <li>Violate copyright, trademark, or other third-party intellectual property rights (including pirated or cracked software, movies, music, or unauthorized copies).</li>
-          <li>Contain child sexual abuse material (CSAM) or sexual exploitation of minors.</li>
-          <li>Contain non-consensual intimate images, revenge porn, or other sexually exploitative content.</li>
-          <li>Promote, praise, or facilitate terrorism, extremist violence, or organized violent crime.</li>
-          <li>Facilitate doxxing or the publication of highly sensitive personal data without consent.</li>
-          <li>Contain malware, ransomware, viruses, trojans, spyware, or other code intended to damage, compromise, or unlawfully access systems or data.</li>
-          <li>Are intended to defraud, spam, scam, harass, intimidate, or otherwise materially harm individuals or organizations.</li>
-          <li>Are stolen, illegally obtained, or contraband under applicable law.</li>
-        </ul>
-        <p style="margin-top:8px; font-size:13px; color:var(--muted)">This list is illustrative and not exhaustive. Content that is illegal or harmful in your jurisdiction is prohibited.</p>
-      </div>
+    <h2>3. Prohibited Content & Uses</h2>
+    <p>Do not upload, share, attempt to reconstruct, or otherwise distribute any content or materials that:</p>
+    <div class="legal-list">
+      <ul>
+        <li>Violate copyright, trademark, or other third-party intellectual property rights (including pirated or cracked software, movies, music, or unauthorized copies).</li>
+        <li>Contain child sexual abuse material (CSAM) or sexual exploitation of minors.</li>
+        <li>Contain non-consensual intimate images, revenge porn, or other sexually exploitative content.</li>
+        <li>Promote, praise, or facilitate terrorism, extremist violence, or organized violent crime.</li>
+        <li>Facilitate doxxing or the publication of highly sensitive personal data without consent.</li>
+        <li>Contain malware, ransomware, viruses, trojans, spyware, or other code intended to damage, compromise, or unlawfully access systems or data.</li>
+        <li>Are intended to defraud, spam, scam, harass, intimidate, or otherwise materially harm individuals or organizations.</li>
+        <li>Are stolen, illegally obtained, or contraband under applicable law.</li>
+      </ul>
+      <p style="font-size:13px; color:#aaa;">This list is illustrative and not exhaustive. Content that is illegal or harmful in your jurisdiction is prohibited.</p>
+    </div>
 
-      <h2>4. Owner's Role, Enforcement &amp; Disclaimer</h2>
-      <p>
-        The site owner/operator (@CaptainSkira) does not endorse, verify, or guarantee the legality, accuracy, or safety of user-uploaded files. WebSim and its owners may remove, block, restrict access to, or take other measures with respect to any content that appears to violate these Terms, WebSim's policies, or applicable law. WebSim will cooperate with lawful requests from law enforcement and intellectual property rights holders as required.
-      </p>
+    <h2>4. Owner's Role, Enforcement & Disclaimer</h2>
+    <p>
+      The owner/operator (@CaptainSkira) does not endorse, verify, or guarantee the legality, accuracy, or safety of user-uploaded files. WebSim and its owners may remove, block, or restrict access to any content that appears to violate these Terms, WebSim's Terms of Service (<a href="https://websim.com/tos" target="_blank" rel="noopener noreferrer">https://websim.com/tos</a>), or applicable law. WebSim will cooperate with lawful requests from law enforcement and intellectual property rights holders as required. The owner is not liable for misuse of the service and provides no warranty of any kind.
+    </p>
 
-      <h2>5. Unauthorized Hosting, Distribution, Reverse Engineering, and Commercialization</h2>
-      <p>
-        The Golden Ticket format, the reconstruction compilers, conversion utilities, and all related tools and software provided by WebSim (collectively, the "Tools") are the intellectual property and/or trade secrets of the site owner/operator and WebSim. Unless you have express, written permission from the owner (@CaptainSkira), you are strictly prohibited from:
-      </p>
-      <div class="legal-list">
-        <ul>
-          <li>Hosting or operating the Tools, or any substantially similar tool, on another website, server, or service.</li>
-          <li>Redistributing, sublicensing, selling, or otherwise commercializing the Tools, including selling compiled binaries, compilers, or reconstruction utilities derived from the Tools.</li>
-          <li>Reverse engineering, decompiling, decrypting, or extracting trade secrets, algorithms, or proprietary formats used by the Tools for the purpose of rehosting, replicating, or competing with the service.</li>
-          <li>Using the Tools to offer a competing service, or packaging the Tools into a product for third parties (paid or unpaid), without written consent.</li>
-          <li>Automating access to the Tools in ways that replicate or mirror the service for distribution or resale.</li>
-        </ul>
-      </div>
+    <h2>5. Unauthorized Hosting, Distribution, Reverse Engineering, and Commercialization</h2>
+    <p>
+      The Golden Ticket format, the reconstruction compilers, conversion utilities, and all related tools and software provided by Skira’s Blob Factory (the "Tools") are the intellectual property and trade secrets of the site owner/operator. Unless you have express, written permission from the owner (@CaptainSkira), you are strictly prohibited from:
+    </p>
+    <div class="legal-list">
+      <ul>
+        <li>Hosting or operating the Tools, or any substantially similar tool, on another website, server, or service.</li>
+        <li>Redistributing, sublicensing, selling, or otherwise commercializing the Tools, including selling compiled binaries, compilers, or reconstruction utilities derived from the Tools.</li>
+        <li>Reverse engineering, decompiling, decrypting, or extracting algorithms or proprietary formats used by the Tools for the purpose of rehosting, replicating, or competing with the service.</li>
+        <li>Using the Tools to offer a competing service, or packaging the Tools into a product for third parties without written consent.</li>
+        <li>Automating access to the Tools in ways that replicate or mirror the service for distribution or resale.</li>
+      </ul>
+    </div>
 
-      <p>
-        If an individual or organization violates the above prohibitions, the owner and operator may pursue legal remedies. Possible actions include, but are not limited to:
-      </p>
-      <div class="legal-list">
-        <ul>
-          <li>Issuing a formal demand / cease-and-desist notice.</li>
-          <li>Filing DMCA takedown notices, where applicable.</li>
-          <li>Pursuing civil claims for injunctive relief to stop ongoing misuse.</li>
-          <li>Pursuing claims for monetary damages, including lost profits and costs of enforcement.</li>
-          <li>Seeking recovery of attorneys' fees and related costs.</li>
-          <li>Referring apparent criminal misconduct to law enforcement for investigation (e.g., fraud, theft of trade secrets, distribution of malware, or other criminal violations).</li>
-        </ul>
-        <p style="margin-top:8px; font-size:13px; color:var(--muted)">This list is illustrative. The availability and scope of each remedy depend on the facts and applicable law. Nothing here is intended as legal advice; consult counsel for legal guidance.</p>
-      </div>
+    <p>
+      If an individual or organization violates these prohibitions, the owner and operator may pursue legal remedies. Possible actions include but are not limited to:
+    </p>
+    <div class="legal-list">
+      <ul>
+        <li>Issuing a formal demand or cease-and-desist notice.</li>
+        <li>Filing DMCA takedown notices when applicable.</li>
+        <li>Pursuing civil claims for injunctive relief to stop ongoing misuse.</li>
+        <li>Pursuing claims for monetary damages, including lost profits and enforcement costs.</li>
+        <li>Seeking recovery of attorneys' fees and related costs.</li>
+        <li>Referring criminal misconduct to law enforcement for investigation (for example, fraud or theft of trade secrets).</li>
+      </ul>
+      <p style="font-size:13px; color:#aaa;">This list is illustrative. Legal remedies depend on facts and applicable law.</p>
+    </div>
 
-      <h2>6. User Conduct &amp; Technical Restrictions</h2>
-      <p>
-        You must not attempt to overload, attack, reverse-engineer, or otherwise disrupt the service. Examples of prohibited technical behavior include, but are not limited to: excessive parallel uploads meant to degrade service, automated scraping or abuse, denial-of-service attempts, or unauthorized automation that reproduces the Tools at scale.
-      </p>
+    <h2>6. User Conduct & Technical Restrictions</h2>
+    <p>
+      You must not attempt to overload, attack, reverse-engineer, or otherwise disrupt the service. Examples of prohibited technical behavior include excessive parallel uploads, automated scraping or abuse, denial-of-service attempts, or unauthorized automation that reproduces the Tools at scale.
+    </p>
 
-      <h2>7. Indemnification</h2>
-      <p>
-        To the fullest extent permitted by law, you agree to indemnify, defend, and hold harmless the site owner/operator and WebSim from any claims, liabilities, damages, losses, costs, or expenses (including reasonable attorneys' fees) arising from or related to your uploads, exports, sharing, reconstruction, or other use of the service or Tools.
-      </p>
+    <h2>7. Indemnification</h2>
+    <p>
+      To the fullest extent permitted by law, you agree to indemnify, defend, and hold harmless the site owner/operator and host from any claims, liabilities, damages, losses, costs, or expenses (including reasonable attorneys' fees) arising from or related to your uploads, exports, sharing, reconstruction, or use of the service or Tools.
+    </p>
 
-      <h2>8. Limitation of Liability</h2>
-      <p>
-        To the maximum extent permitted by applicable law, WebSim, its owners, affiliates, and operators will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages related to your use of the service, Tools, or user-uploaded content, even if advised of the possibility of such damages.
-      </p>
+    <h2>8. Limitation of Liability</h2>
+    <p>
+      To the maximum extent permitted by applicable law, Skira’s Blob Factory, its owner/operator, affiliates, and WebSim (as host) will not be liable for any indirect, incidental, special, consequential, or punitive damages related to your use of the service, Tools, or user-uploaded content.
+    </p>
 
-      <h2>9. Changes to These Terms</h2>
-      <p>
-        WebSim may update these Terms at any time. When material changes occur they will be posted here with an updated last-modified date. Continued use of the service after changes are posted constitutes acceptance of the revised Terms.
-      </p>
+    <h2>9. Changes to These Terms</h2>
+    <p>
+      These Terms may be updated at any time. When material changes occur they will be posted here with an updated last-modified date. Continued use of the service after updates means you accept the new Terms.
+    </p>
 
-      <h2>10. Governing Law &amp; Miscellaneous</h2>
-      <p>
-        These Terms are governed by the law identified on the site's legal/contact page or, if none is specified, by the owner's jurisdiction. If any provision of these Terms is found invalid or unenforceable, the remaining provisions will continue in full force and effect.
-      </p>
+    <h2>10. Governing Law & Miscellaneous</h2>
+    <p>
+      These Terms are governed by the laws specified on the legal or contact page, or the owner’s jurisdiction if none is specified. If any provision is found invalid or unenforceable, the remaining provisions remain in effect.
+    </p>
 
-      <h2>Contact &amp; Enforcement Requests</h2>
-      <p>
-        If you need to request written permission, report abuse, or make an enforcement request, contact the owner at:
-      </p>
-      <p><strong>Email:</strong> <a href="mailto:solalprofessionnel@gmail.com">solalprofessionnel@gmail.com</a><br/>
-         <strong>Discord:</strong> <a href="https://discord.gg/6kmscdE8Qt" target="_blank" rel="noopener noreferrer">discord.gg/6kmscdE8Qt</a></p>
-
-      <hr />
-
-      <div aria-live="polite">
-        <p style="font-size:13px; color:var(--muted)"><strong>Acceptance required:</strong> To use the Tools or otherwise proceed, you must acknowledge and accept these Terms by checking the box below and pressing <em>Continue</em>. If you do not have explicit, written consent from @CaptainSkira (Skira) to host, copy, sell, or use the Tools outside WebSim.com, you are not permitted to do so.</p>
-
-        <form id="tosForm" onsubmit="return false;" novalidate>
-          <div class="cta">
-            <label class="checkbox" for="accept">
-              <input id="accept" type="checkbox" aria-describedby="accept-desc" />
-              <span id="accept-desc">By checking the box and pressing <strong>Continue</strong> I agree and will follow the Terms of Use above.</span>
-            </label>
-
-            <button id="continueBtn" class="continue" type="button" disabled title="You must accept the Terms to continue">Continue</button>
-            <div style="margin-left:auto; min-width:180px; text-align:right;">
-              <small id="status" aria-live="polite">Status: not accepted</small>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <footer>
-        <div>
-          <small>WebSim &copy; Hosted on WebSim.com — Owner: @CaptainSkira</small>
-        </div>
-        <div>
-          <small>Questions? <a href="mailto:solalprofessionnel@gmail.com">solalprofessionnel@gmail.com</a></small>
-        </div>
-      </footer>
-    </section>
+    <h2>Contact & Enforcement Requests</h2>
+    <p>
+      For written permission, abuse reports, or enforcement requests, contact the owner:
+    </p>
+    <p>
+      <strong>Email:</strong> <a href="mailto:solalprofessionnel@gmail.com">solalprofessionnel@gmail.com</a><br>
+      <strong>Discord:</strong> <a href="https://discord.gg/6kmscdE8Qt" target="_blank" rel="noopener noreferrer">discord.gg/6kmscdE8Qt</a>
+    </p>
   </main>
 
-  <script>
-    // Minimal, robust client-side acceptance handler.
-    (function () {
-      const checkbox = document.getElementById('accept');
-      const btn = document.getElementById('continueBtn');
-      const status = document.getElementById('status');
-      const STORAGE_KEY = 'websim.tos.accepted.v1'; // increments when major TOS changes
-
-      // initialize state if previously accepted and timestamp is recent
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const obj = JSON.parse(stored);
-          if (obj && obj.accepted && obj.timestamp) {
-            status.textContent = 'Status: previously accepted on ' + new Date(obj.timestamp).toLocaleString();
-            // keep continue enabled for convenience (but still require check)
-            btn.disabled = true;
-          }
-        }
-      } catch (e) {
-        // ignore storage errors
-      }
-
-      checkbox.addEventListener('change', function () {
-        btn.disabled = !checkbox.checked;
-        status.textContent = checkbox.checked ? 'Status: ready to continue' : 'Status: not accepted';
-      });
-
-      btn.addEventListener('click', function () {
-        if (!checkbox.checked) return;
-        const now = Date.now();
-        // store acceptance locally (not a legal substitute for server-side logging)
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({ accepted: true, timestamp: now, version: '2025-08-02' }));
-        } catch (e) {
-          // ignore localStorage failures
-        }
-
-        // Notify user — adapt or replace this with your site's actual continue behavior.
-        status.textContent = 'Status: accepted on ' + new Date(now).toLocaleString();
-        btn.disabled = true;
-        checkbox.disabled = true;
-
-        // You can hook this event to perform a server-side acceptance record (recommended).
-        // Example POST (commented): send to /api/accept-tos with fetch if you have an endpoint.
-        /*
-        fetch('/api/accept-tos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ timestamp: now, tosVersion: '2025-08-02', userAgent: navigator.userAgent })
-        }).then(() => {
-           // on success, redirect or close modal
-        });
-        */
-
-        // Temporary inline confirmation
-        alert('Thank you — you have accepted the Terms of Use. Proceeding.');
-        // If you want to redirect after acceptance, do it here:
-        // window.location.href = '/';
-      });
-
-      // Resist accidental text selection for the legal text (optional)
-      document.querySelectorAll('p, li, h2').forEach(function (el) {
-        el.style.userSelect = 'text';
-      });
-    })();
-  </script>
+  <footer>
+    <div>Skira’s Blob Factory © 2025 - Hosted on WebSim.com</div>
+    <div>Owner: @CaptainSkira - <a href="mailto:solalprofessionnel@gmail.com">solalprofessionnel@gmail.com</a></div>
+  </footer>
 </body>
 </html>
