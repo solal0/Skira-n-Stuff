@@ -35,11 +35,16 @@
     }
 
     main {
-      height: calc(100% - 90px);
-      overflow-y: scroll;
+      position: fixed;
+      top: 90px; /* below header */
+      bottom: 50px; /* above footer */
+      left: 0;
+      right: 0;
+      overflow-y: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
       padding: 30px;
+      box-sizing: border-box;
     }
     main::-webkit-scrollbar {
       display: none;
@@ -101,7 +106,7 @@
     <h1>Skira’s Blob Factory - Terms of Use</h1>
     <div class="meta">
       Last modified: November 8, 2025<br>
-      Hosted on: WebSim.com (Host, not owner)<br>
+      Hosted on: WebSim.com<br>
       Owner / Operator: @CaptainSkira (Skira)
     </div>
   </header>
