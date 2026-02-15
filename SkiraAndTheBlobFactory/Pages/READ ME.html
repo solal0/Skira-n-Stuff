@@ -148,7 +148,7 @@
 <p style="font-size: 1.5em;">&nbsp;</p>
 <p>&nbsp;</p>
 <h1><strong>Skira And The Blob Factory</strong></h1>
-<nav><strong>Table of Contents</strong></nav><nav>|<a href="#chapter1"><strong><a href="#chapter1">Skira's Blob Compiler</a></strong></a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter1a">Details/Notes</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter1b">First Steps into the Blob Factory</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter1c">Advanced Steps</a></nav><nav>|</nav><nav>|<strong><a href="#chapter2">Compiler Tools</a></strong></nav><nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2a">Details/Notes</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2b">Windows</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2c">Android</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2d">Web</a></nav><nav>|</nav><nav>|<strong><a href="#chapter3">Extras</a></strong></nav></nav><nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3a">Common/Known Issues</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3b">Change Logs</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3c">URLs</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3d">Versions</a></nav><nav>&nbsp;\_ <a href="#chapter3e">Samples</a></nav><nav></nav><nav></nav></nav>
+<nav><strong>Table of Contents</strong></nav><nav>|<a href="#chapter1"><strong><a href="#chapter1">Skira's Blob Compiler</a></strong></a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter1a">Details/Notes</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter1b">First Steps into the Blob Factory</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter1c">Advanced Steps</a></nav><nav>|</nav><nav>|<strong><a href="#chapter2">Compiler Tools</a></strong></nav><nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2a">Details/Notes</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2b">Windows</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2c">Android</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter2d">Web</a></nav><nav>|</nav><nav>|<strong><a href="#chapter3">Extras</a></strong></nav></nav><nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3a">Common/Known Issues</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3b">Change Logs</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3c">URLs</a></nav><nav>|\_&nbsp;<a class="subchapter" href="#chapter3d">Versions</a></nav><nav>|\_ <a href="#chapter3e">Medias</a></nav><nav>&nbsp;\_ <a href="#chapter3f">Samples</a>
 <section></section>
 <h2 id="chapter1"><span style="text-decoration: underline;"><strong>Skira's Blob Factory</strong></span></h2>
 <h3 id="chapter1a">Details/Notes</h3>
@@ -170,7 +170,7 @@
 <li>A list of queued parts will show up. Wait until all parts have their url to proceed.</li>
 <li>Once all parts have been uploaded you have 2 options (Copy all is broken):</li>
 <li><strong>[Option 1]:</strong> You click "Copy Golden Link" who will make you copy a link to your clipboard that when opened will trigger the download of your file using the <a href="https://skira-downloader.netlify.app/" target="_blank" rel="noopener">Online Compiler</a>&nbsp;in silent mode (sample)</li>
-<li><strong>[Option 2]:</strong> You click "Download Golden Ticket" who will make you download a very lightweight file called {full_file_name}.golden_ticket.txt. This file can be given to all three tools to rebuild the original file. (<a href="#chapter3e">sample</a>)</li>
+<li><strong>[Option 2]:</strong> You click "Download Golden Ticket" who will make you download a very lightweight file called {full_file_name}.golden_ticket.txt. This file can be given to all three tools to rebuild the original file. (<a href="#chapter3f">sample</a>)</li>
 <li>If you choosed the golden ticket file you can scroll down to see which tool sounds the best to you and how to use them to turn your golden ticket back into the original file.</li>
 </ol>
 <h2 id="chapter2"><span style="text-decoration: underline;">Compiler Tools</span></h2>
@@ -178,10 +178,22 @@
 <h3 id="chapter2a">Details/Notes</h3>
 <nav><strong>Windows</strong> tool can handle files of <strong>any size</strong> and is <strong>very fast</strong>.</nav><nav><nav><strong>Android</strong> tool is <strong>slower</strong> than the two other tools and might be <strong>limited</strong> above a certain file size (not confirmed).</nav><nav><nav><strong>Web</strong> tool works well and is <strong>pretty fast</strong>&nbsp;but is <strong>limited</strong> above a certain file size (~10Gb). He is also sometimes super slow, fetching parts 1 by 1 without providing any errors. And some other times he is super fast.</nav></nav></nav>
 <h3 id="chapter2b">Windows</h3>
-<nav><span style="text-decoration: underline;"><strong>Step-by-step quide:</strong></span></nav><nav>note: step 1 to 6 are only required once.</nav>
+<span style="text-decoration: underline;">
+  <strong>[v1.5 & up] Step-by-step guide:</strong>
+</span>
+<p>Note: The rebuilt file will be in {folder who contains extracted files}/_internal/Output</p>
 <ol>
-<li>Download the latest (or 3.14.0) version of python at&nbsp;<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">https://www.python.org/downloads/</a>. Do not download python install manager. Instead click just below the button to download the standalone.</li>
-<li>Run&nbsp;python-{latest_version}-amd64.exe and in the window check "Use admin privileges when installing py.exe" and "Add python.exe to PATH" then click Install Now.</li>
+<li>Download the lastest version of <a href="https://solal0.github.io/Skira-n-Stuff/SkiraAndTheBlobFactory/Tools/Windows/Current/Skira's%20Blob%20Compiler.zip" target="_blank" rel="noopener">Skira's Blob Compiler</a> for Windows</li>
+<li>Extract the files from the zip in a new folder. Make sure that everything inside the zip ends up in the same directory !</li>
+<li>Run Compiler.exe (Compiler) and follow given instructions (select golden ticket, choose speed, ...)</li>
+</ol>
+<span style="text-decoration: underline;">
+  <strong>[v1.4 & older] Step-by-step guide:</strong>
+</span>
+<p>Note: Steps 1 to 6 are only required once.</p>
+<ol>
+<li>Download <a href="https://www.python.org/ftp/python/3.14.0/python-3.14.0-embed-amd64.zip" target="_blank" rel="noopener">python v3.14.0</a>. Do not download python install manager !</li>
+<li>Run&nbsp;python-3.14.0-amd64.exe and in the window check "Use admin privileges when installing py.exe" and "Add python.exe to PATH" then click Install Now.</li>
 <li>Press Yes in the next popup and then wait for Python to install.</li>
 <li>Once python Setup was successful press close and open a command prompt by typing cmd in your windows search bar and hitting enter.</li>
 <li>In the command prompt type or copy and paste "pip install requests" before hitting enter. Now wait for the installation to complete.</li>
@@ -218,10 +230,17 @@
 </nav></section>
 <h2 id="chapter3"><span style="text-decoration: underline;">Extras</span></h2>
 <h3 id="chapter3a">Common/Known Issues</h3>
-<p><strong>Slow Upload/Download</strong> -&gt; Bad Internet/Huge File<br /><strong>Web Compiler printing lot of errors/imported parts value going up and down forever</strong> -&gt; most likely to be a memory problem. It happens after ~10Gb downloaded because of the memory being full. There is no fix as of now other than downloading only 10Gb or less files with this Compiler.<br /><strong>Estimated Time not matching (way higher/lower) </strong>-&gt; The math done to get these estimated values uses the stats given by a pc who has 800-900Mbps of Download speed and 600-700Mbps of Upload speed. The faster your internet is, the faster files Upload and Download will be.<br /><br />If you have any other issue, please report them via <a href="https://discord.com/invite/6kmscdE8Qt" target="_blank" rel="noopener">Discord</a>&nbsp;and i'll see what I can do.</p>
+<p><strong>Slow Upload/Download</strong> -&gt; Bad Internet/Huge File<br /><strong>Web Compiler printing lot of errors/imported parts value going up and down forever</strong> -&gt; most likely to be a memory problem. It happens after ~10Gb downloaded because of the browser memory being full. There is no fix as of now other than downloading only 10Gb or less files with this Compiler.<br /><strong>Estimated Time not matching (way higher/lower) </strong>-&gt; The math done to get these estimated values uses the stats given by a pc who has 800-900Mbps of Download speed and 600-700Mbps of Upload speed. The faster your internet is, the faster files Upload and Download will be.<br /><br />If you have any other issue, please report them via <a href="https://discord.com/invite/6kmscdE8Qt" target="_blank" rel="noopener">Discord</a>&nbsp;and i'll see what I can do.</p>
 <section>
 <h3 id="chapter3b">Change Logs</h3>
-<nav><strong>[V1] [WINDOWS]:</strong> Handle files called "Golden Ticket.json" containing a name variable and a table of parts. Reads all the parts inside the table and import/add them one by one into a single file called whatever the name variable is.</nav><nav><strong>[V1.1] [WINDOWS]: </strong>Now handles "{full_file_name}.golden_ticket.json" and&nbsp;"{full_file_name}.golden_ticket.txt". Same ticket content as before but cleaner. An update checker has been added</nav><nav><strong>[V1.2] [WINDOWS]:</strong> Added password handling, when adding a password to your imported file on Skira's Blob Factory the password is saved inside the golden ticket, if found by the tool it will use it to decrypt each part.</nav><nav><strong>[V1] [ANDROID]:</strong> Android compiler is out ! Same thing as the windows V1.1 but for mobile and with more details like calculated file size, remaining device space and some other stuff. Does not have update check but has the password detection and part decryption.</nav><nav><strong>[V1.3] [WINDOWS]:</strong> Huge optimization added, tool now downloads as fast as the web compiler but can handle 100Gb+ files. Calculated size added next to calculated speed when choosing Slow or Fast method. The tool will make up to 16 workers depending on your pc efficiency to import parts as fast as possible. All imported parts will be added in a folder called ".temp" inside the Output folder and once all parts are imported they will be combined into the original file. Tool requires ~two times the file size you're downloading to import parts and combine them.</nav><nav></nav>
+<nav><strong>[V1] [WINDOWS]: </strong>Handle files called "Golden Ticket.json" containing a name variable and a table of parts. Reads all the parts inside the table and import/add them one by one into a single file called whatever the name variable is.</nav>
+<nav><strong>[V1.1] [WINDOWS]: </strong>Now handles "{full_file_name}.golden_ticket.json" and&nbsp;"{full_file_name}.golden_ticket.txt". Same ticket content as before but cleaner. An update checker has been added</nav>
+<nav><strong>[V1.2] [WINDOWS]: </strong>Added password handling, when adding a password to your imported file on Skira's Blob Factory the password is saved inside the golden ticket, if found by the tool it will use it to decrypt each part.</nav>
+<nav><strong>[V1] [ANDROID]: </strong>Android compiler is out ! Same thing as the windows V1.1 but for mobile and with more details like calculated file size, remaining device space and some other stuff. Does not have update check but has the password detection and part decryption.</nav>
+<nav><strong>[V1.3] [WINDOWS]: </strong>Huge optimization added, tool now downloads as fast as the web compiler but can handle 100Gb+ files. Calculated size added next to calculated speed when choosing Slow or Fast method. The tool will make up to 16 workers depending on your pc efficiency to import parts as fast as possible. All imported parts will be added in a folder called ".temp" inside the Output folder and once all parts are imported they will be combined into the original file. Tool requires ~two times the file size you're downloading to import parts and combine them.</nav>
+<nav><strong>[V1.4] [WINDOWS]: </strong>Time estimation is way better, all urls updated (idk what i meant by that) and maybe other stuff, idr.</nav>
+<nav><strong>[V1.5] [WINDOWS]: </strong>Fuck .py scripts, welcome executables ! I compiled the python script into an executable so it's easier and modules are compiled with it. Ouput folder and version.txt got moved in _internal folder.</nav>
+<nav></nav>
 <h3 id="chapter3c">URLs</h3>
 <p>Relevant/Official URLs, links, and resources.</p>
 <table style="width: 406px; height: 88px;">
@@ -249,7 +268,7 @@
 </tr>
 <tr>
 <td style="width: 158px;">Skira's Hub</td>
-<td style="width: 176px;">List all uploaded files</td>
+<td style="width: 176px;">List of uploaded files</td>
 <td style="width: 138.719px;"><a href="https://skira-hub.netlify.app/" target="_blank" rel="noopener">Redirect</a></td>
 </tr>
 <tr>
@@ -270,9 +289,9 @@
 <table class="editorDemoTable" style="width: 400px;">
 <tbody>
 <tr>
-<td style="width: 57px; text-align: center;"><strong>Versions</strong></td>
-<td style="width: 71px; text-align: center;"><strong>Devices</strong></td>
-<td style="width: 24.7344px; text-align: center;"><strong>URLs</strong></td>
+<td style="width: 57px; text-align: center;"><strong>Version</strong></td>
+<td style="width: 71px; text-align: center;"><strong>Device</strong></td>
+<td style="width: 24.7344px; text-align: center;"><strong>URL</strong></td>
 </tr>
 <tr>
 <td style="width: 57px; text-align: center;">Latest</td>
@@ -283,6 +302,11 @@
 <td style="width: 57px; text-align: center;">Latest</td>
 <td style="width: 71px; text-align: center;">Windows</td>
 <td style="width: 24.7344px;"><a href="https://solal0.github.io/Skira-n-Stuff/SkiraAndTheBlobFactory/Tools/Windows/Current/Skira's%20Blob%20Compiler.zip" target="_blank" rel="noopener">Redirect</a></td>
+</tr>
+<tr>
+<td style="width: 57px; text-align: center;">v1.4</td>
+<td style="width: 71px; text-align: center;">Windows</td>
+<td style="width: 24.7344px;"><a href="https://solal0.github.io/Skira-n-Stuff/SkiraAndTheBlobFactory/Tools/Windows/v1.4/Skira's%20Blob%20Compiler.zip" target="_blank" rel="noopener">Redirect</a></td>
 </tr>
 <tr>
 <td style="width: 57px; text-align: center;">v1.3</td>
@@ -307,20 +331,42 @@
 </tbody>
 </table>
 <p>&nbsp;</p>
-<h3 id="chapter3e">Samples</h3>
+<h3 id="chapter3e">Medias (not there yet)</h3>
+<table class="editorDemoTable" style="width: 250px;">
+<tbody>
+<tr>
+<td style="width: 138px; text-align: center;"><strong>Name</strong></td>
+<td style="width: 63.4375px; text-align: center;"><strong>URL</strong></td>
+</tr>
+<tr>
+<td style="width: 138px; text-align: center;">Web Compiler</td>
+<td style="width: 63.4375px; text-align: center;"><a href="" target="_blank" rel="noopener">Redirect</a></td>
+</tr>
+<tr>
+<td style="width: 138px; text-align: center;">Android Compiler</td>
+<td style="width: 63.4375px; text-align: center;"><a href="" target="_blank" rel="noopener">Redirect</a></td>
+</tr>
+<tr>
+<td style="width: 138px; text-align: center;">Windows Compiler</td>
+<td style="width: 63.4375px; text-align: center;"><a href="" target="_blank" rel="noopener">Redirect</a></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<h3 id="chapter3f">Samples</h3>
 <p>South Park Se10 Ep8:</p>
 <table class="editorDemoTable" style="width: 226.438px;">
 <tbody>
 <tr>
-<td style="width: 138px; text-align: center;"><strong>Options</strong></td>
-<td style="width: 63.4375px; text-align: center;"><strong>URLs</strong></td>
+<td style="width: 138px; text-align: center;"><strong>Option</strong></td>
+<td style="width: 63.4375px; text-align: center;"><strong>URL</strong></td>
 </tr>
 <tr>
-<td style="width: 138px; text-align: center;">1 (web download)</td>
+<td style="width: 138px; text-align: center;">web download</td>
 <td style="width: 63.4375px; text-align: center;"><a href="https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f306-450c-7194-ac2a-8e88760e81bb.txt?silent" target="_blank" rel="noopener">Redirect</a></td>
 </tr>
 <tr>
-<td style="width: 138px; text-align: center;">2 (golden ticket)</td>
+<td style="width: 138px; text-align: center;">golden ticket</td>
 <td style="width: 63.4375px; text-align: center;"><a href="https://clean-interactive-starter--skira.on.websim.com/" target="_blank" rel="noopener">Redirect</a></td>
 </tr>
 </tbody>
