@@ -10,6 +10,8 @@
 
 [V1.5]: Python script was compiled to a executable file, no need to install modules anymore since everything is already there ! Output folder and version.txt have been moved in _internal folder.
 
+[V1.5.1]: The number of threads can now be decided by the user and compiling goes faster.
+
 
 
 
