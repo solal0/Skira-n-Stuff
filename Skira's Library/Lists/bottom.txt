@@ -1,98 +1,98 @@
 [
    {
       "id" : "1118200",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e3cb-743e-7336-a802-fbec9e54d11a.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199e3cb-743e-7336-a802-fbec9e54d11a.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199e3cb-743e-7336-a802-fbec9e54d11a.txt",
       "comment": "People Playground"
    },
 
    {
       "id" : "1167630", 
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e533-2aad-748e-8be6-2e9cb0bbfeda.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199e533-2aad-748e-8be6-2e9cb0bbfeda.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199e533-2aad-748e-8be6-2e9cb0bbfeda.txt",
       "comment": "Teardown"
    },
 
    {
       "id" : "1017180",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199e4c1-a425-720a-96ac-ccd31ccfd4c4.txt",
       "comment": "The Long Drive"
    },
 
    {
       "id" : "1091500",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199ec41-fcf9-750c-bf4d-f3f7494e1544.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199ec41-fcf9-750c-bf4d-f3f7494e1544.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199ec41-fcf9-750c-bf4d-f3f7494e1544.txt",
       "comment": "Cyberpunk 2077"
    },
 
    {
       "id" : "986130",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f96e-35f5-75f8-a09f-4fc405970626.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199f96e-35f5-75f8-a09f-4fc405970626.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199f96e-35f5-75f8-a09f-4fc405970626.txt",
       "comment": "Shadows of Doubt"
    },
 
    {
       "id" : "2027330",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199f974-aad4-773e-ba7d-dafa01c6f1a9.txt",
       "comment": "GoreBox"
    },
 
    {
       "id" : "322170",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199f984-91d3-720c-b73d-1fbadcea77e1.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199f984-91d3-720c-b73d-1fbadcea77e1.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199f984-91d3-720c-b73d-1fbadcea77e1.txt",
       "comment": "Geometry Dash"
    },
 
    {
       "id" : "235460",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199fa0f-19bd-779e-9f4b-5810389b227b.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199fa0f-19bd-779e-9f4b-5810389b227b.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199fa0f-19bd-779e-9f4b-5810389b227b.txt",
       "comment": "Metal Gear Rising: Revengeance"
    },
 
    {
       "id" : "233860",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/0199fa1f-98ff-741a-b711-bf2178053088.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/0199fa1f-98ff-741a-b711-bf2178053088.txt",
       "bottomUrl": "https://api.websim.com/blobs/0199fa1f-98ff-741a-b711-bf2178053088.txt",
       "comment": "Kenshi"
    },
 
    {
       "id" : "1030300",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/019a1c33-6b64-7431-872a-d1f5bcc1a499.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/019a1c33-6b64-7431-872a-d1f5bcc1a499.txt",
       "bottomUrl": "https://api.websim.com/blobs/019a1c33-6b64-7431-872a-d1f5bcc1a499.txt",
       "comment": "Hollow Knight: Silksong"
    },
 
    {
       "id" : "115300",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/019a1ce1-d80b-731a-90ff-fcf359d41bf9.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/019a1ce1-d80b-731a-90ff-fcf359d41bf9.txt",
       "bottomUrl": "https://api.websim.com/blobs/019a1ce1-d80b-731a-90ff-fcf359d41bf9.txt",
       "comment": "COD: Modern Warfare 3"
    },
 
    {
       "id" : "241560",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/019a1df0-e66b-7794-9b9a-eebf177c0f4f.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/019a1df0-e66b-7794-9b9a-eebf177c0f4f.txt",
       "bottomUrl": "https://api.websim.com/blobs/019a1df0-e66b-7794-9b9a-eebf177c0f4f.txt",
       "comment": "The Crew"
    },
 
    {
       "id" : "3035570",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/019a2116-28f3-7200-8e13-45efee5c5c10.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/019a2116-28f3-7200-8e13-45efee5c5c10.txt",
       "bottomUrl": "https://api.websim.com/blobs/019a2116-28f3-7200-8e13-45efee5c5c10.txt",
       "comment": "Assassin's Creed Mirage"
    },
 
    {
       "id" : "12210",
-      "topUrl": "https://skira-downloader.netlify.app/download/https://api.websim.com/blobs/019a367f-78ba-725c-8df4-3c06ea6ee8d7.txt?silent",
+      "topUrl": "https://skira.me/SkiraAndTheBlobFactory/v2/download?d=https://api.websim.com/blobs/019a367f-78ba-725c-8df4-3c06ea6ee8d7.txt",
       "bottomUrl": "https://api.websim.com/blobs/019a367f-78ba-725c-8df4-3c06ea6ee8d7.txt",
       "comment": "GTA IV"
    },
